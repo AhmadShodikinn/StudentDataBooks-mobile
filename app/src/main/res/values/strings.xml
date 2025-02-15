@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">VirtualDataBooks</string>
+    <string name="loginTitle">Data Buku Induk Siswa\nSMKN 2 Singosari</string>
+    <string name="loginPrimaryButton">Masuk Sebagai Siswa</string>
+    <string name="loginSecondaryButton">Masuk Sebagai Admin</string>
+    <string name="content">content</string>
+    <string name="loginSubtitle">Buku Induk Virtual\nAkses Data Dengan Mudah</string>
+    <string name="loginFormTitle">Masuk</string>
+    <string name="loginFormSubtitleStudent">Masukkan NISN dan Tanggal Lahir untuk Login</string>
+    <string name="loginFormSubtitleAdmin">Masukkan Username dan Password untuk Login</string>
+    <string name="loginFormButton">Lanjut</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
