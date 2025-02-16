@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity() {
             bottomNavigationView.inflateMenu(R.menu.bottom_navigation_student)
         }
 
+        if (savedInstanceState == null) {
+            replaceFragment(DashboardFragment())
+        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {

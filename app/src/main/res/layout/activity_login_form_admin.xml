@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/background"
-    tools:context="">
+    android:background="@drawable/background"
+    tools:context=".UI.LoginFormAdmin">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/formCard"
