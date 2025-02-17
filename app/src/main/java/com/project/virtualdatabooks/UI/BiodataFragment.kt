@@ -1,18 +1,23 @@
 package com.project.virtualdatabooks.UI
 
+import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.FrameLayout
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.ViewModel.StudentViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.ViewModelFactory
 import com.project.virtualdatabooks.Network.ApiConfig
 import com.project.virtualdatabooks.R
 import com.project.virtualdatabooks.Support.TokenHandler
+import com.project.virtualdatabooks.databinding.CustomSnackbarBinding
 import com.project.virtualdatabooks.databinding.FragmentBiodataBinding
 
 
@@ -132,7 +137,23 @@ class BiodataFragment : Fragment() {
             binding.tvIncome.text = "Penghasilan : ${data.setelahPendidikan?.bekerjaPenghasilan ?: "Tidak ada data"}"
 
         })
+
+        showCustomSnackbar()
     }
 
+    private fun showCustomSnackbar() {
+        val customSnackbar = View.inflate(requireContext(), R.layout.custom_snackbar, null)
+        val binding = CustomSnackbarBinding.bind(customSnackbar)
+        val snackbar = Snackbar.make(requireView(), "", Snackbar.LENGTH_LONG)
 
+        snackbar.apply {
+            (view as ViewGroup).addView(customSnackbar)
+
+            val layoutParams = snackbar.view.layoutParams
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT
+            snackbar.view.layoutParams = layoutParams
+
+            show()
+        }
+    }
 }

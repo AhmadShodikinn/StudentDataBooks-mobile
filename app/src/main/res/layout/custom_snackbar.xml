@@ -1,35 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- res/layout/custom_snackbar.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".UI.EditDataFragment">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Data"
-        android:textSize="32sp"
-        android:textFontWeight="800"
-        android:fontFamily="@font/opensans_bold"
-        android:textColor="@color/profileColorTitle"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold"/>
-
+    <!-- CardView sebagai container utama -->
     <androidx.cardview.widget.CardView
         android:layout_width="412dp"
         android:layout_height="157dp"
         android:backgroundTint="#008CFF"
         app:cardCornerRadius="10dp"
-        android:layout_gravity="bottom">
+        android:layout_gravity="center">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/snackbar_message"
@@ -42,9 +32,8 @@
                 android:textSize="20sp"
                 android:layout_marginBottom="8dp"/>
 
-
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/informationButton"
+                android:id="@+id/snackbar_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ajukan Untuk Merubah Data!"
@@ -60,4 +49,5 @@
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-</FrameLayout>
+
+</LinearLayout>

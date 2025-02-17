@@ -4,4 +4,8 @@
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
+
+    <style name="customSnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">0dp</item>
+    </style>
 </resources>

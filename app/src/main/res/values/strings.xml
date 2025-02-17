@@ -12,4 +12,17 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="titleFormOTP">Masukkan kode OTP</string>
     <string name="subtitleFormOTP">Kami telah mengirimkan kode OTP ke email Anda.</string>
+    <string name="customSnackbarTitle">Apakah Ada Data Pribadimu\nYang Salah?</string>
+    <string name="SelectedForm">Pilih Form\n</string>
+    <String name="SelectedForm">Pilih Form</String>
+    <string-array name="spinner_items">
+        <item>Biodata</item>
+        <item>Alamat</item>
+        <item>Kesehatan</item>
+        <item>Pendidikan</item>
+        <item>Keterangan Ayah</item>
+        <item>Keterangan Ibu</item>
+        <item>Perkembangan Siswa</item>
+        <item>Setelah Lulus</item>
+    </string-array>
 </resources>
