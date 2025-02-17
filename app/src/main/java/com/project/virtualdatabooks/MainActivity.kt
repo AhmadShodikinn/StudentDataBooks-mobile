@@ -1,6 +1,8 @@
 package com.project.virtualdatabooks
 
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,7 @@ import com.project.virtualdatabooks.UI.StudentDataFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigationView: BottomNavigationView
+    private var activeFragment: Fragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +44,7 @@ class MainActivity : AppCompatActivity() {
             replaceFragment(DashboardFragment())
         }
 
-        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
                     replaceFragment(DashboardFragment())
@@ -55,28 +58,45 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(ERaportFragment())
                     true
                 }
-                //admin
                 R.id.navigation_data_siswa -> {
                     replaceFragment(StudentDataFragment())
                     true
                 }
                 R.id.navigation_biodata -> {
-                    replaceFragment(BiodataFragment())
+                    val userId = intent.getIntExtra("USER_ID", 0)
+                    replaceFragment(BiodataFragment(), userId)
                     true
                 }
             else -> false
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if (activeFragment is DashboardFragment) {
+                    finishAffinity()
+                } else {
+                    replaceFragment(DashboardFragment())
+                    bottomNavigationView.selectedItemId = R.id.navigation_home
+                }
+            }
+        })
     }
 
-    private fun replaceFragment(fragment: Fragment) {
+    private fun replaceFragment(fragment: Fragment, userId: Int? = null) {
+        val bundle = Bundle()
+        if (userId != null) {
+            bundle.putInt("USER_ID", userId)
+            fragment.arguments = bundle
+        }
         val transaction = supportFragmentManager.beginTransaction()
+        activeFragment = fragment
         transaction.replace(R.id.fragment_container, fragment)
-        transaction.addToBackStack(null)
         transaction.commit()
+
     }
 
     private fun getUserRole(): Any {
-        return "Admin"
+        return "Student"
     }
 }

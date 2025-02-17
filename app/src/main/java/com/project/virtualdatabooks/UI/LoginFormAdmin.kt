@@ -2,13 +2,11 @@ package com.project.virtualdatabooks.UI
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.project.virtualdatabooks.Data.Repository.LoginRepository
+import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.ViewModel.LoginViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.LoginViewModelFactory
 import com.project.virtualdatabooks.Network.ApiConfig
@@ -29,8 +27,8 @@ class LoginFormAdmin: AppCompatActivity() {
         val tokenHandler = TokenHandler(this)
         val token = tokenHandler.getToken() ?: ""
 
-        val loginRepository = LoginRepository(ApiConfig.getApiService(token))
-        val factory = LoginViewModelFactory(loginRepository, tokenHandler)
+        val repository = Repository(ApiConfig.getApiService(token))
+        val factory = LoginViewModelFactory(repository, tokenHandler)
         loginViewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         loginViewModel.adminLoginResult.observe(this, { response ->
@@ -40,7 +38,6 @@ class LoginFormAdmin: AppCompatActivity() {
 
                     val intent = Intent(this, LoginFormOTPAdmin::class.java)
                     startActivity(intent)
-                    finish()
                 } else if (response.message != null){
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }

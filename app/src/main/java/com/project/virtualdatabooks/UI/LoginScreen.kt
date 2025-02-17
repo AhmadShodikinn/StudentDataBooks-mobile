@@ -20,13 +20,11 @@ class LoginScreen: AppCompatActivity() {
         binding.buttonPrimary.setOnClickListener {
             val intent = Intent(this, LoginFormStudent::class.java)
             startActivity(intent)
-            finish()
         }
 
         binding.buttonSecondary.setOnClickListener{
             val intent = Intent(this, LoginFormAdmin::class.java)
             startActivity(intent)
-            finish()
         }
     }
 }

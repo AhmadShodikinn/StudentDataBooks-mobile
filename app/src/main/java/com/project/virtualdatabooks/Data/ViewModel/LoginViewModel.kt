@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.project.virtualdatabooks.Data.Repository.LoginRepository
+import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
@@ -13,7 +13,7 @@ import com.project.virtualdatabooks.Support.TokenHandler
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val loginRepository: LoginRepository,
+    private val repository: Repository,
     private val tokenHandler: TokenHandler
 ): ViewModel() {
     private val _adminLoginResult = MutableLiveData<AdminLoginResponse>()
@@ -27,14 +27,14 @@ class LoginViewModel(
 
     fun loginAdmin(username: String, password: String) {
         viewModelScope.launch {
-            val response = loginRepository.loginAdmin(username, password)
+            val response = repository.loginAdmin(username, password)
             _adminLoginResult.value = response
         }
     }
 
     fun sendOTPAdmin(code: String){
         viewModelScope.launch {
-            val response = loginRepository.sendOTPAdmin(code)
+            val response = repository.sendOTPAdmin(code)
             _checkOTPAdminResult.value = response
 
             response.token?.let {
@@ -47,7 +47,7 @@ class LoginViewModel(
 
     fun loginStudent(nisn: String, dateBirth: String){
         viewModelScope.launch {
-            val response = loginRepository.loginStudent(nisn, dateBirth)
+            val response = repository.loginStudent(nisn, dateBirth)
             _studentLoginResult.value = response
 
             response.token?.let {

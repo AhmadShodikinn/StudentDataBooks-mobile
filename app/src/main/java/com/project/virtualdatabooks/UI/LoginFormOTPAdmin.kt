@@ -2,13 +2,11 @@ package com.project.virtualdatabooks.UI
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.project.virtualdatabooks.Data.Repository.LoginRepository
+import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.ViewModel.LoginViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.LoginViewModelFactory
 import com.project.virtualdatabooks.MainActivity
@@ -30,14 +28,15 @@ class LoginFormOTPAdmin: AppCompatActivity() {
         val tokenHandler = TokenHandler(this)
         val token = tokenHandler.getToken() ?: ""
 
-        val loginRepository = LoginRepository(ApiConfig.getApiService(token))
-        val factory = LoginViewModelFactory(loginRepository, tokenHandler)
+        val repository = Repository(ApiConfig.getApiService(token))
+        val factory = LoginViewModelFactory(repository, tokenHandler)
         loginViewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         loginViewModel.checkOTPAdminResult.observe(this, { response ->
             if (response != null) {
                 if (response.id != null && response.username != null && response.email != null && response.token != null) {
                     navigateToHome()
+                    finish()
                 } else if (response.message != null) {
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }

@@ -2,14 +2,12 @@ package com.project.virtualdatabooks.UI
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.project.virtualdatabooks.Data.Repository.LoginRepository
+import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.ViewModel.LoginViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.LoginViewModelFactory
 import com.project.virtualdatabooks.MainActivity
@@ -32,14 +30,18 @@ class LoginFormStudent: AppCompatActivity() {
         val tokenHandler = TokenHandler(this)
         val token = tokenHandler.getToken() ?: ""
 
-        val loginRepository = LoginRepository(ApiConfig.getApiService(token))
-        val factory = LoginViewModelFactory(loginRepository, tokenHandler)
+        val repository = Repository(ApiConfig.getApiService(token))
+        val factory = LoginViewModelFactory(repository, tokenHandler)
         loginViewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         loginViewModel.studentLoginResult.observe(this, { response ->
             if (response != null) {
                 if (response.isMatch == true) {
-                    navigateToHome()
+                    val userId = response.id
+                    if (userId != null) {
+                        navigateToHome(userId)
+                        finish()
+                    }
                 } else {
                     Toast.makeText(this, response.message, Toast.LENGTH_SHORT).show()
                 }
@@ -59,11 +61,11 @@ class LoginFormStudent: AppCompatActivity() {
 
     }
 
-    private fun navigateToHome() {
+    private fun navigateToHome(userId: Int) {
         Toast.makeText(this, "Login berhasil!, Selamat datang", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("USER_ID", userId)
         startActivity(intent)
-        finish()
     }
 }

@@ -11,6 +11,8 @@
     <color name="selected">#0C7FDA</color>
     <color name="dashboardBackground">#0C7FDA</color>
     <color name="dashboardSecondaryBackground">#EFF2F4</color>
+    <color name="profileColorTitle">#0C7FDA</color>
+    <color name="profileColorSubtitle">#5F5F5F</color>
 
 
 </resources>

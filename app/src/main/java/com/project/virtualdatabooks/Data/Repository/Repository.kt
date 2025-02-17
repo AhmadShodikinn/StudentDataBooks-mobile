@@ -3,12 +3,14 @@ package com.project.virtualdatabooks.Data.Repository
 import com.project.virtualdatabooks.Data.Request.AdminLoginRequest
 import com.project.virtualdatabooks.Data.Request.AdminOTPRequest
 import com.project.virtualdatabooks.Data.Request.StudentLoginRequest
+import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
+import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Network.ApiService
 
-class LoginRepository(private val apiService: ApiService) {
+class Repository(private val apiService: ApiService) {
 
     suspend fun loginAdmin(username: String, password: String): AdminLoginResponse {
         val bodyRequest = AdminLoginRequest(username, password)
@@ -23,6 +25,14 @@ class LoginRepository(private val apiService: ApiService) {
     suspend fun loginStudent(nisn: String, dateBirth: String): StudentLoginResponse {
         val bodyRequest = StudentLoginRequest(nisn, dateBirth)
         return apiService.studentLogin(bodyRequest)
+    }
+
+    suspend fun fetchDashboardData(): AdminDashboardResponse {
+        return apiService.fetchDashboardData()
+    }
+
+    suspend fun fetchBiodataSiswa(userId: Int): StudentBiodataResponse {
+        return apiService.studentBiodata(userId)
     }
 
 }
