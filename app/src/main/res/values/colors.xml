@@ -14,7 +14,7 @@
     <color name="profileColorTitle">#0C7FDA</color>
     <color name="profileColorSubtitle">#5F5F5F</color>
     <color name="primaryButtonEditForm">#0C7FDA</color>
-
+    <color name="formBorderColor">#B8B8B8</color>
 
 
 </resources>

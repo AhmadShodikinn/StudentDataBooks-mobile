@@ -138,7 +138,11 @@ class BiodataFragment : Fragment() {
 
         })
 
-        showCustomSnackbar()
+        binding.informationButton.setOnClickListener {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+        }
+
+//        showCustomSnackbar()
     }
 
     private fun showCustomSnackbar() {

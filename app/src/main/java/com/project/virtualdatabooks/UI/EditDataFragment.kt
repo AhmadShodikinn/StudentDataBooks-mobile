@@ -6,12 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.databinding.FragmentEditDataBinding
 
 
 class EditDataFragment : Fragment() {
+    private lateinit var binding: FragmentEditDataBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -19,7 +20,16 @@ class EditDataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_data, container, false)
+        binding = FragmentEditDataBinding.inflate(inflater, container, false)
+
+        binding.informationButton.setOnClickListener {
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragment_container, EditFormStudentFragment())
+            transaction?.addToBackStack(null)
+            transaction?.commit()
+        }
+
+        return binding.root
     }
 
 }
