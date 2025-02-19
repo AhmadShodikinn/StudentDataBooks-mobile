@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,11 +13,17 @@
         android:roundIcon="@mipmap/logo_foreground"
         android:supportsRtl="true"
         android:theme="@style/Theme.VirtualDataBooks"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".StudentNotifyUpdate"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="false"/>
-        <activity android:name=".UI.LoginScreen"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".UI.LoginScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,12 +31,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.LoginFormStudent"
-            android:exported="false"/>
-        <activity android:name=".UI.LoginFormAdmin"
-            android:exported="false"/>
-        <activity android:name=".UI.LoginFormOTPAdmin"
-            android:exported="false"/>
+        <activity
+            android:name=".UI.LoginFormStudent"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".UI.LoginFormAdmin"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".UI.LoginFormOTPAdmin"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 
 </manifest>

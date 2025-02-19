@@ -1,42 +1,8 @@
 package com.project.virtualdatabooks.Data.Request
 
-data class StudentUpdateRequest(
-    val ayah_kandung: AyahKandung,
-    val ibu_kandung: IbuKandung?,
-    val data_diri: DataDiri,
-    val hobi: Hobi,
-    val kesehatan: Kesehatan,
-    val pendidikan: Pendidikan,
-    val perkembangan: Perkembangan,
-    val setelah_pendidikan: SetelahPendidikan,
-    val tempat_tinggal: TempatTinggal,
-    val wali: Wali
-)
 
-data class AyahKandung(
-    val nama: String,
-    val tempat_lahir: String,
-    val tanggal_lahir: String,
-    val agama: String,
-    val kewarganegaraan: String,
-    val pendidikan: String,
-    val pekerjaan: String,
-    val pengeluaran_per_bulan: String,
-    val alamat_dan_no_telepon: String,
-    val status: String
-)
-
-data class IbuKandung(
-    val nama: String?,
-    val tempat_lahir: String?,
-    val tanggal_lahir: String?,
-    val agama: String?,
-    val kewarganegaraan: String?,
-    val pendidikan: String?,
-    val pekerjaan: String?,
-    val pengeluaran_per_bulan: String?,
-    val alamat_dan_no_telepon: String?,
-    val status: String?
+data class StudentUpdateDataDiriRequest(
+    val data_diri: DataDiri
 )
 
 data class DataDiri(
@@ -55,14 +21,57 @@ data class DataDiri(
     val tanggal_lahir: String
 )
 
-data class Hobi(
+
+data class StudentUpdateAyahRequest(
+    val ayah_kandung: DataAyah
+)
+
+data class DataAyah (
+    val nama: String,
+    val tempat_lahir: String,
+    val tanggal_lahir: String,
+    val agama: String,
+    val kewarganegaraan: String,
+    val pendidikan: String,
+    val pekerjaan: String,
+    val pengeluaran_per_bulan: String,
+    val alamat_dan_no_telepon: String,
+    val status: String
+)
+
+data class StudentUpdateIbuRequest(
+    val ibu_kandung: DataIbu
+)
+
+data class DataIbu(
+    val nama: String?,
+    val tempat_lahir: String?,
+    val tanggal_lahir: String?,
+    val agama: String?,
+    val kewarganegaraan: String?,
+    val pendidikan: String?,
+    val pekerjaan: String?,
+    val pengeluaran_per_bulan: String?,
+    val alamat_dan_no_telepon: String?,
+    val status: String?
+)
+
+data class StudentUpdateHobiRequest(
+    val hobi_siswa: DataHobi
+)
+
+data class DataHobi(
     val kesenian: String?,
     val olahraga: String?,
     val organisasi: String?,
     val lain_lain: String?
 )
 
-data class Kesehatan(
+data class StudentUpdateKesehatanRequest(
+    val kesehatan: DataKesehatan
+)
+
+data class DataKesehatan(
     val gol_darah: String,
     val penyakit_pernah_diderita: String,
     val kelainan_jasmani: String,
@@ -70,7 +79,11 @@ data class Kesehatan(
     val berat_badan: String
 )
 
-data class Pendidikan(
+data class StudentUpdatePendidikanRequest(
+    val pendidikan: DataPendidikan
+)
+
+data class DataPendidikan(
     val sebelumnya_tamatan_dari: String,
     val sebelumnya_tanggal_dan_ijazah: String,
     val sebelumnya_tanggal_skhun_dan_: String,
@@ -84,7 +97,11 @@ data class Pendidikan(
     val diterima_tanggal: String
 )
 
-data class Perkembangan(
+data class StudentUpdatePerkembanganRequest(
+    val perkembangan: DataPerkembangan
+)
+
+data class DataPerkembangan(
     val menerimabea_siswa_tahun_kelas_dari: String?,
     val meninggalkan_sekolah_ini_tanggal: String,
     val meninggalkan_sekolah_ini_alasan: String,
@@ -93,21 +110,33 @@ data class Perkembangan(
     val akhir_pendidikan_no_tanggal_skhun: String
 )
 
-data class SetelahPendidikan(
+data class StudentUpdateSetelahPendidikanRequest(
+    val setelah_pendidikan: DataSetelahPendidikan
+)
+
+data class DataSetelahPendidikan(
     val melanjutkan_ke: String?,
     val bekerja_nama_perusahaan: String?,
     val bekerja_tanggal_mulai: String?,
     val bekerja_penghasilan: String?
 )
 
-data class TempatTinggal(
+data class StudentUpdateTempatTinggalRequest(
+    val tempat_tinggal: DataTempatTinggal
+)
+
+data class DataTempatTinggal(
     val alamat: String,
     val no_telepon: String,
     val tinggal_dengan: String,
     val jarak_ke_sekolah: String
 )
 
-data class Wali(
+data class StudentUpdateWaliRequest(
+    val wali: DataWali
+)
+
+data class DataWali(
     val nama: String?,
     val tempat_lahir: String?,
     val tanggal_lahir: String?,
@@ -118,3 +147,5 @@ data class Wali(
     val pengeluaran_per_bulan: String?,
     val alamat_dan_no_telepon: String?
 )
+
+

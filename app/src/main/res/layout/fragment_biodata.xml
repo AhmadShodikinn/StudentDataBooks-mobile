@@ -842,16 +842,6 @@
                             android:textSize="8sp"
                             android:textColor="#B2000000" />
 
-                        <TextView
-                            android:id="@+id/tv_guardianStatus"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="4dp"
-                            android:text="Masih Hidup/Meninggal Dunia :"
-                            android:fontFamily="@font/opensans_bold"
-                            android:textSize="8sp"
-                            android:textColor="#B2000000" />
-
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 

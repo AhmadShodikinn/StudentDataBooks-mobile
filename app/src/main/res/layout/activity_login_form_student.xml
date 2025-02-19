@@ -60,7 +60,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputNisn"
                 android:layout_width="295dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="@color/white"
                 android:hint="NISN"
@@ -78,7 +78,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputDateBirth"
                 android:layout_width="295dp"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@color/white"
                 android:hint="Tanggal Lahir"

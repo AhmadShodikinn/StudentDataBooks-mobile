@@ -22,7 +22,9 @@
         <item>Pendidikan</item>
         <item>Keterangan Ayah</item>
         <item>Keterangan Ibu</item>
+        <item>Keterangan Wali</item>
         <item>Perkembangan Siswa</item>
         <item>Setelah Lulus</item>
+        <item>Hobi</item>
     </string-array>
 </resources>

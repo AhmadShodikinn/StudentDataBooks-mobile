@@ -96,6 +96,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     private fun getUserRole(): Any {
         return "Student"
     }
