@@ -57,7 +57,7 @@ class BiodataFragment : Fragment() {
         studentViewModel.studentBiodata.observe(viewLifecycleOwner, { data ->
             //Header
             binding.ProfilName.text = data.dataDiri?.namaPanggilan
-            binding.ProfilClass.text = data.jurusan?.nama //gaada kelas jurusan saat ini diapi
+            binding.ProfilClass.text = data.jurusan?.nama
 
             //Biodata
             binding.tvFullName.text = "Nama Lengkap : ${data.dataDiri?.namaLengkap ?: "Tidak ada data"}"

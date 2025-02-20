@@ -10,6 +10,7 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateIbuRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateKesehatanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePerkembanganRequest
+import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
@@ -41,35 +42,6 @@ interface ApiService {
     @GET("siswa/data-diri")
     suspend fun studentBiodata(@Query("user_id") userId: Int): StudentBiodataResponse
 
-    //updateBiodata
     @PUT("siswa/data-diri")
-    suspend fun updateStudentBio(@Body studentUpdateDataDiriRequest: StudentUpdateDataDiriRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentAyah(@Body studentUpdateAyahRequest: StudentUpdateAyahRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentIbu(@Body studentUpdateIbuRequest: StudentUpdateIbuRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentHobi(@Body studentUpdateHobiRequest: StudentUpdateHobiRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentKesehatan(@Body studentUpdateKesehatanRequest: StudentUpdateKesehatanRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentPendidikan(@Body studentUpdatePendidikanRequest: StudentUpdatePendidikanRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentPerkembagan(@Body studentUpdatePerkembanganRequest: StudentUpdatePerkembanganRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentTempatTinggal(@Body studentUpdateTempatTinggalRequest: StudentUpdateTempatTinggalRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentSetelahPendidikan(@Body studentUpdateSetelahPendidikanRequest: StudentUpdateSetelahPendidikanRequest): StudentUpdateResponse
-
-    @PUT("siswa/data-diri")
-    suspend fun updateStudentWali(@Body studentUpdateWaliRequest: StudentUpdateWaliRequest): StudentUpdateResponse
-
+    suspend fun updateStudentData(@Body studentUpdateRequest: StudentUpdateRequest): StudentUpdateResponse
 }

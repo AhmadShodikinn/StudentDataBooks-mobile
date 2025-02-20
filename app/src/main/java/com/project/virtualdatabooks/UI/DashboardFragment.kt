@@ -13,9 +13,11 @@ import com.project.virtualdatabooks.Data.ViewModelFactory.ViewModelFactory
 import com.project.virtualdatabooks.Network.ApiConfig
 import com.project.virtualdatabooks.R
 import com.project.virtualdatabooks.Support.TokenHandler
+import com.project.virtualdatabooks.databinding.FragmentDashboardBinding
 
 
 class DashboardFragment : Fragment() {
+    private lateinit var binding: FragmentDashboardBinding
     private lateinit var adminViewModel: AdminViewModel
     private lateinit var tokenHandler: TokenHandler
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,23 +30,28 @@ class DashboardFragment : Fragment() {
         val factory = ViewModelFactory(repository)
 
         adminViewModel = ViewModelProvider(this, factory).get(AdminViewModel::class.java)
+
+
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        dashboardViewModel.fetchDashboardData()
+//        adminViewModel.fetchDashboardData()
 
-        adminViewModel.dashboardData.observe(viewLifecycleOwner, {data ->
-            Log.d("DashboardFragment","data: $data")
-        })
+//        adminViewModel.dashboardData.observe(viewLifecycleOwner, {data ->
+//            binding.UploadTotal.setText(data.countDatainputed.toString())
+//            binding.MaleStudent.setText(data.countLaki.toString())
+//            binding.FemaleStudent.setText(data.countPerempuan.toString())
+//            binding.StudentTotal.setText(data.countSiswa.toString())
+//        })
     }
 }

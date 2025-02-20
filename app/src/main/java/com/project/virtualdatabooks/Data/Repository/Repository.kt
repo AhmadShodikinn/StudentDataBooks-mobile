@@ -10,6 +10,7 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateIbuRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateKesehatanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePerkembanganRequest
+import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
@@ -46,46 +47,7 @@ class Repository(private val apiService: ApiService) {
         return apiService.studentBiodata(userId)
     }
 
-    suspend fun updateBiodataSiswa(request: StudentUpdateDataDiriRequest): StudentUpdateResponse {
-        return apiService.updateStudentBio(request)
+    suspend fun updateStudentData(request: StudentUpdateRequest): StudentUpdateResponse {
+        return apiService.updateStudentData(request)
     }
-
-    suspend fun updateAyahSiswa(request: StudentUpdateAyahRequest): StudentUpdateResponse {
-        return apiService.updateStudentAyah(request)
-    }
-
-    suspend fun updateIbuSiswa(request: StudentUpdateIbuRequest): StudentUpdateResponse {
-        return apiService.updateStudentIbu(request)
-    }
-
-    suspend fun updateHobiSiswa(request: StudentUpdateHobiRequest): StudentUpdateResponse {
-        return apiService.updateStudentHobi(request)
-    }
-
-    suspend fun updateKesehatanSiswa(request: StudentUpdateKesehatanRequest): StudentUpdateResponse {
-        return apiService.updateStudentKesehatan(request)
-    }
-
-    suspend fun updatePendidikanSiswa(request: StudentUpdatePendidikanRequest): StudentUpdateResponse {
-        return apiService.updateStudentPendidikan(request)
-    }
-
-    suspend fun updatePerkembanganSiswa(request: StudentUpdatePerkembanganRequest): StudentUpdateResponse {
-        return apiService.updateStudentPerkembagan(request)
-    }
-
-    suspend fun updateTempatTinggalSiswa(request: StudentUpdateTempatTinggalRequest): StudentUpdateResponse {
-        return apiService.updateStudentTempatTinggal(request)
-    }
-
-    suspend fun updateSetelahPendidikanSiswa(request: StudentUpdateSetelahPendidikanRequest): StudentUpdateResponse {
-        return apiService.updateStudentSetelahPendidikan(request)
-    }
-
-    suspend fun updateWaliSiswa(request: StudentUpdateWaliRequest): StudentUpdateResponse {
-        return apiService.updateStudentWali(request)
-    }
-
-
-
 }

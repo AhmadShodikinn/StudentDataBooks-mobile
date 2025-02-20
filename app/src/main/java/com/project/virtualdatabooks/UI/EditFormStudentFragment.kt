@@ -4,13 +4,13 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.icu.util.Calendar
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.project.virtualdatabooks.Data.Repository.Repository
@@ -31,10 +31,12 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateIbuRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateKesehatanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdatePerkembanganRequest
+import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 //import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
+import com.project.virtualdatabooks.Data.Response.Kesehatan
 //import com.project.virtualdatabooks.Data.Request.TempatTinggal
 //import com.project.virtualdatabooks.Data.Request.Wali
 import com.project.virtualdatabooks.Data.ViewModel.StudentViewModel
@@ -44,6 +46,7 @@ import com.project.virtualdatabooks.R
 import com.project.virtualdatabooks.StudentNotifyUpdate
 import com.project.virtualdatabooks.Support.TokenHandler
 import com.project.virtualdatabooks.databinding.FragmentEditFormStudentBinding
+import okhttp3.internal.indexOf
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -52,6 +55,14 @@ class EditFormStudentFragment : Fragment() {
     private lateinit var studentViewModel: StudentViewModel
     private lateinit var tokenHandler: TokenHandler
     private var optionSelected: Int? = null
+    private var userId:Int? = null
+
+    private val genderOptions = arrayOf("laki-laki", "perempuan")
+    private val parentOptions = arrayOf("yatim", "piatu", "yatim piatu", "lengkap")
+    private val liveWithOptions = arrayOf("ortu", "saudara", "lainnya", "wali")
+    private val bloodTypeOptions = arrayOf("A", "B", "O", "AB")
+    private val fatherStatusOptions = arrayOf("masih hidup", "meninggal")
+    private val motherStatusOptions = arrayOf("masih hidup", "meninggal")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +73,13 @@ class EditFormStudentFragment : Fragment() {
         val repository = Repository(ApiConfig.getApiService(token))
         val factory = ViewModelFactory(repository)
         studentViewModel = ViewModelProvider(this, factory).get(StudentViewModel::class.java)
+
+
+        userId = arguments?.getInt("USER_ID")
+        userId?.let { studentViewModel.getStudentBiodata(it) }
+
+
+        Log.d("EditFormStudentFragment", "USER_ID: $userId")
     }
 
     override fun onCreateView(
@@ -74,22 +92,11 @@ class EditFormStudentFragment : Fragment() {
         val spinnerItems = resources.getStringArray(R.array.spinner_items)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerItems)
 
-        val genderOptions = arrayOf("laki-laki", "perempuan")
         val sexAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, genderOptions)
-
-        val parentOptions = arrayOf("yatim", "piatu", "yatim piatu", "lengkap")
         val parentAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, parentOptions)
-
-        val liveWithOptions = arrayOf("ortu", "saudara", "lainnya", "wali")
         val liveWithAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, liveWithOptions)
-
-        val bloodTypeOptions = arrayOf("A", "B", "O", "AB")
         val bloodTypesAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, bloodTypeOptions)
-
-        val fatherStatusOptions = arrayOf("masih hidup", "meninggal")
         val fatherStatusAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, fatherStatusOptions)
-
-        val motherStatusOptions = arrayOf("masih hidup", "meninggal")
         val motherStatusAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, motherStatusOptions)
 
         binding.spinnerSex.adapter = sexAdapter
@@ -99,6 +106,8 @@ class EditFormStudentFragment : Fragment() {
         binding.spinnerBlood.adapter = bloodTypesAdapter
         binding.spinnerFatherStatus.adapter = fatherStatusAdapter
         binding.spinnerMotherStatus.adapter = motherStatusAdapter
+
+        fillInForm()
 
         binding.spinnerOptionForm.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
@@ -119,7 +128,6 @@ class EditFormStudentFragment : Fragment() {
                 when (position) {
                     0 -> {
                         binding.iconNoResult.visibility = View.VISIBLE
-                        binding.sendButton.visibility = View.GONE
                     }
                     1 -> binding.layoutBiodata.visibility = View.VISIBLE
                     2 -> binding.layoutAlamat.visibility = View.VISIBLE
@@ -137,7 +145,6 @@ class EditFormStudentFragment : Fragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 TODO()
             }
-
         }
 
         binding.backButton.setOnClickListener {
@@ -145,64 +152,25 @@ class EditFormStudentFragment : Fragment() {
         }
 
         binding.sendButton.setOnClickListener {
-
-            when (optionSelected) {
-                1 -> {
-                    // Update Biodata
-                    val studentUpdateRequest = getBiodata()
-                    studentViewModel.updateStudentBiodata(studentUpdateRequest)
-                }
-                2 -> {
-                    // Update Tempat Tinggal
-                    val studentUpdateRequestTempatTinggal = getAlamat()
-                    studentViewModel.updateStudentTempatTinggal(studentUpdateRequestTempatTinggal)
-                }
-                3 -> {
-                    // Update Kesehatan
-                    val studentUpdateRequestKesehatan = getKesehatan()
-                    studentViewModel.updateStudentKesehatan(studentUpdateRequestKesehatan)
-                }
-                4 -> {
-                    // Update Pendidikan
-                    val studentUpdateRequestPendidikan = getPendidikan()
-                    studentViewModel.updateStudentPendidikan(studentUpdateRequestPendidikan)
-                }
-                5 -> {
-                    // Update Ayah
-                    val studentUpdateRequestAyah = getAyah()
-                    studentViewModel.updateStudentAyah(studentUpdateRequestAyah)
-                }
-                6 -> {
-                    // Update Ibu
-                    val studentUpdateRequestIbu = getIbu()
-                    studentViewModel.updateStudentIbu(studentUpdateRequestIbu)
-                }
-                7 -> {
-                    // Update Wali
-                    val studentUpdateRequestWali = getWali()
-                    studentViewModel.updateStudentWali(studentUpdateRequestWali)
-                }
-                8 -> {
-                    // Update Perkembangan Pendidikan
-                    val studentUpdateRequestPerkembangan = getPerkembanganPendidikan()
-                    studentViewModel.updateStudentPerkembangan(studentUpdateRequestPerkembangan)
-                }
-                9 -> {
-                    // Update Setelah Pendidikan
-                    val studentUpdateRequestSetelahPendidikan = getSetelahPendidikan()
-                    studentViewModel.updateStudentSetelahPendidikan(studentUpdateRequestSetelahPendidikan)
-                }
-                10 -> {
-                    // Update Hobi
-                    val studentUpdateHobiRequest = getHobi()
-                    studentViewModel.updateStudentHobi(studentUpdateHobiRequest)
-                }
-            }
-
+            val requestBody = (
+                StudentUpdateRequest(
+                    data_diri = getBiodata(),
+                    perkembangan = getPerkembanganPendidikan(),
+                    ayah_kandung = getAyah(),
+                    ibu_kandung = getIbu(),
+                    kesehatan = getKesehatan(),
+                    pendidikan = getPendidikan(),
+                    setelah_pendidikan = getSetelahPendidikan(),
+                    tempat_tinggal = getAlamat(),
+                    wali = getWali(),
+                    hobi_siswa = getHobi()
+                )
+            )
+            studentViewModel.updateStudentData(requestBody)
         }
 
         studentViewModel.updateStudentBiodata.observe( viewLifecycleOwner, { response ->
-                if (response.message != null){
+            if (response.message != null){
                     val intent = Intent(requireContext(), StudentNotifyUpdate::class.java)
                     activity?.startActivity(intent)
                 }
@@ -212,123 +180,178 @@ class EditFormStudentFragment : Fragment() {
         return binding.root
     }
 
-    private fun getHobi(): StudentUpdateHobiRequest {
+    private fun fillInForm(){
+        studentViewModel.studentBiodata.observe(viewLifecycleOwner, {data ->
+            data?.dataDiri?.let { biodata ->
+                binding.edtFullName.setText(biodata.namaLengkap)
+                binding.edtShortName.setText(biodata.namaPanggilan)
+                binding.edtBornPlace.setText(biodata.tempatLahir)
+                binding.edtBornDate.setText(biodata.tanggalLahir)
+                binding.edtReligion.setText(biodata.agama)
+                binding.edtNationality.setText(biodata.kewarganegaraan)
+                binding.edtLanguage.setText(biodata.bahasaSehariHari)
+                binding.edtTotalSiblings.setText(biodata.jmlSaudaraKandung?.toString())
+                binding.edtAdoptedSiblings.setText(biodata.jmlSaudaraAngkat?.toString())
+                binding.edtStepSiblings.setText(biodata.jmlSaudaraTiri?.toString())
+                binding.edtOrderSiblings.setText(biodata.anakKe?.toString())
+
+                val sexPosition = genderOptions.indexOf(biodata.jenisKelamin)
+                binding.spinnerSex.setSelection(sexPosition)
+
+                val parentPosition = parentOptions.indexOf(biodata.kelengkapanOrtu)
+                binding.spinnerParent.setSelection(parentPosition)
+            }
+
+            data?.tempatTinggal?.let { tempatTinggal ->
+                binding.edtAddress.setText(tempatTinggal.alamat)
+                binding.edtTelephoneNumber.setText(tempatTinggal.noTelepon)
+                binding.edtDistance.setText(tempatTinggal.jarakKeSekolah)
+
+                val stayWithPosition = liveWithOptions.indexOf(tempatTinggal.tinggalDengan)
+                binding.spinnerLiveWith.setSelection(stayWithPosition)
+            }
+
+            data?.pendidikan?.let { pendidikan ->
+                binding.edtHighschool.setText(pendidikan.sebelumnyaTamatanDari)
+                binding.edtIjazahNumber.setText(pendidikan.sebelumnyaTanggalDanIjazah)
+                binding.edtSkhunNumber.setText(pendidikan.sebelumnyaTanggalSkhunDan)
+                binding.edtLastLongEdu.setText(pendidikan.sebelumnyaLamaBelajar)
+                binding.edtMoveFrom.setText(pendidikan.pindahanDariSekolah)
+                binding.edtReasonMove.setText(pendidikan.pindahanAlasan)
+                binding.edtAcceptIn.setText(pendidikan.diterimaDiKelas?.toString())
+                binding.edtSkill.setText(pendidikan.diterimaDiBidangKeahlian)
+                binding.edtSpecializeSkill.setText(pendidikan.diterimaDiProgramKeahlian)
+                binding.edtPackageSkill.setText(pendidikan.diterimaDiPaketKeahlian)
+                binding.edtDateAcceptIn.setText(pendidikan.diterimaTanggal)
+            }
+
+            data?.ayahKandung?.let { ayahKandung ->
+                binding.edtFatherName.setText(ayahKandung.nama)
+                binding.edtFatherReligion.setText(ayahKandung.agama)
+                binding.edtFatherNationality.setText(ayahKandung.kewarganegaraan)
+                binding.edtFatherOccupation.setText(ayahKandung.pekerjaan)
+                binding.edtFatherEducation.setText(ayahKandung.pendidikan)
+                binding.edtFatherExpenditure.setText(ayahKandung.pengeluaranPerBulan)
+                binding.edtFatherAddressAndPhone.setText(ayahKandung.alamatDanNoTelepon)
+                binding.edtFatherBornDate.setText(ayahKandung.tanggalLahir)
+
+                val fatherPosition = fatherStatusOptions.indexOf(ayahKandung.status)
+                binding.spinnerFatherStatus.setSelection(fatherPosition)
+            }
+
+            data?.ibuKandung?.let { ibuKandung ->
+                binding.edtMotherName.setText(ibuKandung.nama)
+                binding.edtMotherReligion.setText(ibuKandung.agama)
+                binding.edtMotherNationality.setText(ibuKandung.kewarganegaraan)
+                binding.edtMotherOccupation.setText(ibuKandung.pekerjaan)
+                binding.edtMotherEducation.setText(ibuKandung.pendidikan )
+                binding.edtMotherExpenditure.setText(ibuKandung.pengeluaranPerBulan)
+                binding.edtMotherAddressAndPhone.setText(ibuKandung.alamatDanNoTelepon)
+                binding.edtMotherBornDate.setText(ibuKandung.tanggalLahir)
+
+                val motherPosition = motherStatusOptions.indexOf(ibuKandung.status)
+                binding.spinnerMotherStatus.setSelection(motherPosition)
+            }
+
+            data?.wali?.let { wali ->
+                binding.edtWaliName.setText(wali.nama)
+                binding.edtWaliReligion.setText(wali.agama)
+                binding.edtWaliNationality.setText(wali.kewarganegaraan )
+                binding.edtWaliOccupation.setText(wali.pekerjaan)
+                binding.edtWaliEducation.setText(wali.pendidikan)
+                binding.edtWaliExpenditure.setText(wali.pengeluaranPerBulan)
+                binding.edtWaliAddressAndPhone.setText(wali.alamatDanNoTelepon)
+                binding.edtWaliBornDate.setText(wali.tanggalLahir)
+
+            }
+
+
+            data?.setelahPendidikan?.let { setelahPendidikan ->
+                binding.edtContinueTo.setText(setelahPendidikan.melanjutkanKe)
+                binding.edtWorkInCompany.setText(setelahPendidikan.bekerjaNamaPerusahaan)
+                binding.edtStartWorkDate.setText(setelahPendidikan.bekerjaTanggalMulai)
+                binding.edtIncome.setText(setelahPendidikan.bekerjaPenghasilan)
+            }
+
+            data?.kesehatan?.let { kesehatan ->
+                binding.edtDeases.setText(kesehatan.penyakitPernahDiderita)
+                binding.edtAbnormality.setText(kesehatan.kelainanJasmani)
+                binding.edtHeight.setText(kesehatan.tinggi)
+                binding.edtWeight.setText(kesehatan.beratBadan)
+
+                val bloodTypesPosition = bloodTypeOptions.indexOf(kesehatan.golDarah)
+                binding.spinnerBlood.setSelection(bloodTypesPosition)
+            }
+
+            data?.hobiSiswa?.let { hobiSiswa ->
+                binding.edtKesenian.setText(hobiSiswa.kesenian)
+                binding.edtOlahraga.setText(hobiSiswa.olahraga)
+                binding.edtOrganisasi.setText(hobiSiswa.organisasi)
+                binding.edtLainLain.setText(hobiSiswa.lainLain)
+            }
+
+            data?.perkembangan?.let { perkembangan ->
+                binding.edtScholarshipReceived.setText(perkembangan.menerimaBeaSiswaTahunKelasDari)
+                binding.edtLeftSchool.setText(perkembangan.meninggalkanSekolahIniTanggal)
+                binding.edtLeftSchoolReason.setText(perkembangan.meninggalkanSekolahIniAlasan)
+                binding.edtEducationEnd.setText(perkembangan.akhirPendidikanTamatBelajarLulusTahun)
+                binding.edtEducationDiplomaNumber.setText(perkembangan.akhirPendidikanNoTanggalIjazah)
+                binding.edtEducationSkhunNumber.setText(perkembangan.akhirPendidikanNoTanggalSkhun)
+            }
+        })
+    }
+
+    private fun getHobi(): DataHobi {
         val kesenian = binding.edtKesenian.text.toString()
         val olahraga = binding.edtOlahraga.text.toString()
         val organisasi = binding.edtOrganisasi.text.toString()
         val lainLain = binding.edtLainLain.text.toString()
 
-        return StudentUpdateHobiRequest(
-            hobi_siswa = DataHobi(
-                kesenian,
-                olahraga,
-                organisasi,
-                lainLain
-            )
+        return DataHobi(
+            kesenian,
+            olahraga,
+            organisasi,
+            lainLain
         )
     }
 
-    private fun getSetelahPendidikan(): StudentUpdateSetelahPendidikanRequest {
-        val melanjutkanKe = binding.edtContinueTo.text.toString()
-        val bekerjaDiPerusahaan = binding.edtWorkInCompany.text.toString()
+    private fun getSetelahPendidikan(): DataSetelahPendidikan {
+        val melanjutkanKe = binding.edtContinueTo.text.toString().takeIf { it.isNotEmpty() }
+        val bekerjaDiPerusahaan = binding.edtWorkInCompany.text.toString().takeIf { it.isNotEmpty() }
+        var bekerjaTanggalMulai = binding.edtStartWorkDate.text.toString().takeIf { it.isNotEmpty() }
+        val penghasilan = binding.edtIncome.text.toString().takeIf { it.isNotEmpty() }
 
-        var bekerjaTanggalMulai = binding.edtStartWorkDate.text.toString()
-        binding.edtStartWorkDate.setOnClickListener {
-            showDatePicker()
-        }
-
-        val penghasilan = binding.edtIncome.text.toString()
-
-        return StudentUpdateSetelahPendidikanRequest(
-            setelah_pendidikan = DataSetelahPendidikan(
-                melanjutkanKe,
-                bekerjaDiPerusahaan,
-                bekerjaTanggalMulai,
-                penghasilan
-            )
+        return DataSetelahPendidikan(
+            melanjutkanKe,
+            bekerjaDiPerusahaan,
+            bekerjaTanggalMulai,
+            penghasilan
         )
     }
 
-    private fun showDatePicker() {
-        val calendar = Calendar.getInstance()
-        val year = calendar.get(Calendar.YEAR)
-        val month = calendar.get(Calendar.MONTH)
-        val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-        val datePickerDialog = DatePickerDialog(requireContext(),
-            { _: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int ->
-                // Format date as needed and set to the EditText
-                val formattedDate = "$dayOfMonth/${monthOfYear + 1}/$year"
-                binding.edtStartWorkDate.setText(formattedDate)
-            }, year, month, day)
-        datePickerDialog.show()
-    }
-
-
-    private fun getPerkembanganPendidikan(): StudentUpdatePerkembanganRequest {
+    private fun getPerkembanganPendidikan(): DataPerkembangan {
         val menerimaBeasiswaTahunKelasDari = binding.edtScholarshipReceived.text.toString()
         val meninggalkanSekolahIniAlasan = binding.edtLeftSchoolReason.text.toString()
         val akhirPendidikanTamatBelajarLulusTahun = binding.edtEducationEnd.text.toString()
         val akhirPendidikanNoTanggalIjazah = binding.edtEducationDiplomaNumber.text.toString()
         val akhirPendidikanNoTanggalSkhun = binding.edtEducationSkhunNumber.text.toString()
+        var meninggalkanSekolahIniTanggal = binding.edtLeftSchool.text.toString().takeIf { it.isNotEmpty() }
 
-        var meninggalkanSekolahIniTanggal = binding.edtLeftSchool.text.toString()
-
-        binding.edtLeftSchool.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, year, month, dayOfMonth ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, month, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    meninggalkanSekolahIniTanggal = dateFormat.format(selectedDate.time)
-                    binding.edtLeftSchool.setText(meninggalkanSekolahIniTanggal)
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.show()
-        }
-
-        return StudentUpdatePerkembanganRequest(
-            perkembangan = DataPerkembangan(
-                menerimaBeasiswaTahunKelasDari,
-                meninggalkanSekolahIniTanggal,
-                meninggalkanSekolahIniAlasan,
-                akhirPendidikanTamatBelajarLulusTahun,
-                akhirPendidikanNoTanggalIjazah,
-                akhirPendidikanNoTanggalSkhun
-            )
+        return DataPerkembangan(
+            menerimaBeasiswaTahunKelasDari,
+            meninggalkanSekolahIniTanggal,
+            meninggalkanSekolahIniAlasan,
+            akhirPendidikanTamatBelajarLulusTahun,
+            akhirPendidikanNoTanggalIjazah,
+            akhirPendidikanNoTanggalSkhun
         )
     }
 
 
-    private fun getWali(): StudentUpdateWaliRequest {
+    private fun getWali(): DataWali {
         val namaWali = binding.edtWaliName.text.toString()
-
-        var tanggalLahirWali = binding.edtWaliBornDate.text.toString()
+        var tanggalLahirWali = binding.edtWaliBornDate.text.toString().takeIf { it.isNotEmpty() }
         val tempatLahirWali = binding.edtWaliBornPlace.text.toString()
-
-        binding.edtWaliBornDate.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, year, month, dayOfMonth ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, month, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    tanggalLahirWali = dateFormat.format(selectedDate.time)
-                    binding.edtWaliBornDate.setText(tanggalLahirWali)
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.show()
-        }
-
         val agamaWali = binding.edtWaliReligion.text.toString()
         val kewarganegaraanWali = binding.edtWaliNationality.text.toString()
         val pekerjaanWali = binding.edtWaliOccupation.text.toString()
@@ -336,47 +359,25 @@ class EditFormStudentFragment : Fragment() {
         val pengeluaranWali = binding.edtWaliExpenditure.text.toString()
         val alamatWali = binding.edtWaliAddressAndPhone.text.toString()
 
-        return StudentUpdateWaliRequest(
-            wali = DataWali(
-                namaWali,
-                tempatLahirWali,
-                tanggalLahirWali,
-                agamaWali,
-                kewarganegaraanWali,
-                pendidikanWali,
-                pekerjaanWali,
-                pengeluaranWali,
-                alamatWali,
-            )
+        return DataWali(
+            namaWali,
+            tempatLahirWali,
+            tanggalLahirWali,
+            agamaWali,
+            kewarganegaraanWali,
+            pendidikanWali,
+            pekerjaanWali,
+            pengeluaranWali,
+            alamatWali,
         )
     }
 
 
-    private fun getIbu(): StudentUpdateIbuRequest {
+    private fun getIbu(): DataIbu {
         val namaIbu = binding.edtMotherName.text.toString()
         val statusIbu = binding.spinnerMotherStatus.selectedItem.toString()
-
-        var tanggalLahirIbu = binding.edtMotherBornDate.text.toString()
+        var tanggalLahirIbu = binding.edtMotherBornDate.text.toString().takeIf { it.isNotEmpty() }
         val tempatLahirIbu = binding.edtMotherBornPlace.text.toString()
-
-        binding.edtMotherBornDate.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, year, month, dayOfMonth ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, month, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    tanggalLahirIbu = dateFormat.format(selectedDate.time)
-                    binding.edtMotherBornDate.setText(tanggalLahirIbu)
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.show()
-        }
-
         val agamaIbu = binding.edtMotherReligion.text.toString()
         val kewarganegaraanIbu = binding.edtMotherNationality.text.toString()
         val pekerjaanIbu = binding.edtMotherOccupation.text.toString()
@@ -384,28 +385,25 @@ class EditFormStudentFragment : Fragment() {
         val pengeluaranIbu = binding.edtMotherExpenditure.text.toString()
         val alamatIbu = binding.edtMotherAddressAndPhone.text.toString()
 
-        return StudentUpdateIbuRequest(
-            ibu_kandung = DataIbu(
-                namaIbu,
-                tempatLahirIbu,
-                tanggalLahirIbu,
-                agamaIbu,
-                kewarganegaraanIbu,
-                pendidikanIbu,
-                pekerjaanIbu,
-                pengeluaranIbu,
-                alamatIbu,
-                statusIbu
-            )
+        return DataIbu(
+            namaIbu,
+            tempatLahirIbu,
+            tanggalLahirIbu,
+            agamaIbu,
+            kewarganegaraanIbu,
+            pendidikanIbu,
+            pekerjaanIbu,
+            pengeluaranIbu,
+            alamatIbu,
+            statusIbu
         )
     }
 
 
-    private fun getAyah(): StudentUpdateAyahRequest {
+    private fun getAyah(): DataAyah {
         val namaAyah = binding.edtFatherName.text.toString()
         val statusAyah = binding.spinnerFatherStatus.selectedItem.toString()
-
-        var tanggalLahirAyah = binding.edtFatherBornDate.text.toString()
+        var tanggalLahirAyah = binding.edtFatherBornDate.text.toString().takeIf { it.isNotEmpty() }
         val tempatLahirAyah = binding.edtFatherBornPlace.text.toString()
 
         binding.edtFatherBornDate.setOnClickListener {
@@ -433,23 +431,21 @@ class EditFormStudentFragment : Fragment() {
         val pengeluaranAyah = binding.edtFatherExpenditure.text.toString()
         val alamatAyah = binding.edtFatherAddressAndPhone.text.toString()
 
-        return StudentUpdateAyahRequest(
-            ayah_kandung = DataAyah(
-                namaAyah,
-                tempatLahirAyah,
-                tanggalLahirAyah,
-                agamaAyah,
-                kewarganegaraanAyah,
-                pendidikanAyah,
-                pekerjaanAyah,
-                pengeluaranAyah,
-                alamatAyah,
-                statusAyah
-            )
+        return DataAyah(
+            namaAyah,
+            tempatLahirAyah,
+            tanggalLahirAyah,
+            agamaAyah,
+            kewarganegaraanAyah,
+            pendidikanAyah,
+            pekerjaanAyah,
+            pengeluaranAyah,
+            alamatAyah,
+            statusAyah
         )
     }
 
-    private fun getPendidikan(): StudentUpdatePendidikanRequest {
+    private fun getPendidikan(): DataPendidikan {
         val highschool = binding.edtHighschool.text.toString()
         val ijazah = binding.edtIjazahNumber.text.toString()
         val skhun = binding.edtSkhunNumber.text.toString()
@@ -461,103 +457,59 @@ class EditFormStudentFragment : Fragment() {
         val acceptIntSpecializeSkill = binding.edtSpecializeSkill.text.toString()
         val acceptInPackage = binding.edtPackageSkill.text.toString()
 
-        var acceptDate = binding.edtDateAcceptIn.text.toString()
+        var acceptDate = binding.edtDateAcceptIn.text.toString().takeIf { it.isNotEmpty() }
 
-        binding.edtDateAcceptIn.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, year, month, dayOfMonth ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, month, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    acceptDate = dateFormat.format(selectedDate.time)
-                    binding.edtBornDate.setText(acceptDate)  // Update tampilan EditText
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.show()
-        }
-
-        return StudentUpdatePendidikanRequest(
-            pendidikan = DataPendidikan(
-                highschool,
-                ijazah,
-                skhun,
-                lastEdu,
-                moveForm,
-                reasonMove,
-                acceptIn,
-                acceptInSkill,
-                acceptIntSpecializeSkill,
-                acceptInPackage,
-                acceptDate
-            )
+        return DataPendidikan(
+            highschool,
+            ijazah,
+            skhun,
+            lastEdu,
+            moveForm,
+            reasonMove,
+            acceptIn,
+            acceptInSkill,
+            acceptIntSpecializeSkill,
+            acceptInPackage,
+            acceptDate
         )
     }
 
-    private fun getKesehatan(): StudentUpdateKesehatanRequest {
+    private fun getKesehatan(): DataKesehatan {
         val bloodTypes = binding.spinnerBlood.selectedItem.toString()
         val deases = binding.edtDeases.text.toString()
         val abnormality = binding.edtAbnormality.text.toString()
         val heigth = binding.edtHeight.text.toString()
         val width = binding.edtWeight.text.toString()
 
-        return StudentUpdateKesehatanRequest(
-            kesehatan = DataKesehatan(
-                gol_darah = bloodTypes,
-                penyakit_pernah_diderita = deases,
-                kelainan_jasmani = abnormality,
-                tinggi = heigth,
-                berat_badan =  width
-            )
+        return DataKesehatan(
+            gol_darah = bloodTypes,
+            penyakit_pernah_diderita = deases,
+            kelainan_jasmani = abnormality,
+            tinggi = heigth,
+            berat_badan =  width
         )
     }
 
-    private fun getAlamat(): StudentUpdateTempatTinggalRequest {
+    private fun getAlamat(): DataTempatTinggal {
         val address = binding.edtAddress.text.toString()
         val telephoneNumber = binding.edtTelephoneNumber.text.toString()
         val stayWith = binding.spinnerLiveWith.selectedItem.toString()
         val distance = binding.edtDistance.text.toString()
 
-        return StudentUpdateTempatTinggalRequest(
-            tempat_tinggal = DataTempatTinggal(
-                address,
-                telephoneNumber,
-                stayWith,
-                distance
-            )
+        return DataTempatTinggal(
+            address,
+            telephoneNumber,
+            stayWith,
+            distance
         )
     }
 
-    private fun getBiodata(): StudentUpdateDataDiriRequest {
+    private fun getBiodata(): DataDiri {
         val fullName = binding.edtFullName.text.toString()
         val shortName = binding.edtShortName.text.toString()
         val sex = binding.spinnerSex.selectedItem.toString()
         val bornPlace = binding.edtBornPlace.text.toString()
-
-        var bornDate = binding.edtBornDate.text.toString()
-
-        binding.edtBornDate.setOnClickListener {
-            val calendar = Calendar.getInstance()
-            val datePickerDialog = DatePickerDialog(
-                requireContext(),
-                { _, year, month, dayOfMonth ->
-                    val selectedDate = Calendar.getInstance()
-                    selectedDate.set(year, month, dayOfMonth)
-                    val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                    bornDate = dateFormat.format(selectedDate.time)
-                    binding.edtBornDate.setText(bornDate)  // Update tampilan EditText
-                },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
-            )
-            datePickerDialog.show()
-        }
-
+        var bornDate = binding.edtBornDate.text.toString().takeIf { it.isNotEmpty() }
         val religion = binding.edtReligion.text.toString()
         val nationality = binding.edtNationality.text.toString()
         val totalSiblings = binding.edtTotalSiblings.text.toString().toIntOrNull() ?: 0
@@ -567,22 +519,20 @@ class EditFormStudentFragment : Fragment() {
         val parentInfo = binding.spinnerParent.selectedItem.toString()
         val language = binding.edtLanguage.text.toString()
 
-        return StudentUpdateDataDiriRequest(
-            data_diri = DataDiri(
-                nama_lengkap = fullName,
-                nama_panggilan = shortName,
-                jenis_kelamin = sex,
-                tempat_lahir = bornPlace,
-                agama = religion,
-                kewarganegaraan = nationality,
-                anak_ke = orderSiblings,
-                jml_saudara_kandung = totalSiblings,
-                jml_saudara_tiri = stepSiblings,
-                jml_saudara_angkat = adoptedSiblings,
-                kelengkapan_ortu = parentInfo,
-                bahasa_sehari_hari = language,
-                tanggal_lahir = bornDate
-            )
+        return DataDiri(
+            nama_lengkap = fullName,
+            nama_panggilan = shortName,
+            jenis_kelamin = sex,
+            tempat_lahir = bornPlace,
+            agama = religion,
+            kewarganegaraan = nationality,
+            anak_ke = orderSiblings,
+            jml_saudara_kandung = totalSiblings,
+            jml_saudara_tiri = stepSiblings,
+            jml_saudara_angkat = adoptedSiblings,
+            kelengkapan_ortu = parentInfo,
+            bahasa_sehari_hari = language,
+            tanggal_lahir = bornDate
         )
     }
 

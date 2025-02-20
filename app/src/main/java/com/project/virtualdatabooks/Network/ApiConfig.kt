@@ -1,5 +1,7 @@
 package com.project.virtualdatabooks.Network
 
+import com.google.gson.GsonBuilder
+import com.project.virtualdatabooks.Support.CustomDeserializer
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -15,6 +17,11 @@ class ApiConfig {
             val logging = HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             }
+
+            val gson = GsonBuilder()
+                .registerTypeAdapter(String::class.java,CustomDeserializer())
+                .create()
+
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
                 .addInterceptor(TokenInterceptor(token))
@@ -25,7 +32,7 @@ class ApiConfig {
 
             val retrofit = Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(client)
                 .build()
 

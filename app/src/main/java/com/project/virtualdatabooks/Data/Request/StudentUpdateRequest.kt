@@ -1,6 +1,17 @@
 package com.project.virtualdatabooks.Data.Request
 
-
+data class StudentUpdateRequest(
+    val data_diri: DataDiri,
+    val perkembangan: DataPerkembangan,
+    val ayah_kandung: DataAyah,
+    val ibu_kandung: DataIbu,
+    val kesehatan: DataKesehatan,
+    val pendidikan: DataPendidikan,
+    val setelah_pendidikan: DataSetelahPendidikan,
+    val tempat_tinggal: DataTempatTinggal,
+    val wali: DataWali,
+    val hobi_siswa: DataHobi
+)
 data class StudentUpdateDataDiriRequest(
     val data_diri: DataDiri
 )
@@ -18,7 +29,7 @@ data class DataDiri(
     val jml_saudara_angkat: Int,
     val kelengkapan_ortu: String,
     val bahasa_sehari_hari: String,
-    val tanggal_lahir: String
+    val tanggal_lahir: String?
 )
 
 
@@ -29,7 +40,7 @@ data class StudentUpdateAyahRequest(
 data class DataAyah (
     val nama: String,
     val tempat_lahir: String,
-    val tanggal_lahir: String,
+    val tanggal_lahir: String?,
     val agama: String,
     val kewarganegaraan: String,
     val pendidikan: String,
@@ -94,7 +105,7 @@ data class DataPendidikan(
     val diterima_di_bidang_keahlian: String,
     val diterima_di_program_keahlian: String,
     val diterima_di_paket_keahlian: String,
-    val diterima_tanggal: String
+    val diterima_tanggal: String?
 )
 
 data class StudentUpdatePerkembanganRequest(
@@ -102,8 +113,8 @@ data class StudentUpdatePerkembanganRequest(
 )
 
 data class DataPerkembangan(
-    val menerimabea_siswa_tahun_kelas_dari: String?,
-    val meninggalkan_sekolah_ini_tanggal: String,
+    val menerimabea_siswa_tahun_kelas_dari: String,
+    val meninggalkan_sekolah_ini_tanggal: String?,
     val meninggalkan_sekolah_ini_alasan: String,
     val akhir_pendidikan_tamat_belajar_lulus_tahun: String,
     val akhir_pendidikan_no_tanggal_ijazah: String,

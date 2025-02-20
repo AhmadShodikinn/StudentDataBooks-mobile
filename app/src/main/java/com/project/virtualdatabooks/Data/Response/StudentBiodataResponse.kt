@@ -95,22 +95,22 @@ data class Angkatan(
 data class SetelahPendidikan(
 
 	@field:SerializedName("bekerja_tanggal_mulai")
-	val bekerjaTanggalMulai: Any? = null,
+	val bekerjaTanggalMulai: String? = null,
 
 	@field:SerializedName("status_perubahan")
 	val statusPerubahan: String? = null,
 
 	@field:SerializedName("melanjutkan_ke")
-	val melanjutkanKe: Any? = null,
+	val melanjutkanKe: String? = null,
 
 	@field:SerializedName("bekerja_penghasilan")
-	val bekerjaPenghasilan: Any? = null,
+	val bekerjaPenghasilan: String? = null,
 
 	@field:SerializedName("user_id")
 	val userId: Int? = null,
 
 	@field:SerializedName("bekerja_nama_perusahaan")
-	val bekerjaNamaPerusahaan: Any? = null,
+	val bekerjaNamaPerusahaan: String? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null
@@ -137,7 +137,7 @@ data class HobiSiswa(
 	val id: Int? = null,
 
 	@field:SerializedName("lain_lain")
-	val lainLain: Any? = null
+	val lainLain: String? = null
 )
 
 data class IbuKandung(
@@ -191,7 +191,7 @@ data class Perkembangan(
 	val statusPerubahan: String? = null,
 
 	@field:SerializedName("menerima_bea_siswa_tahun_kelas_dari")
-	val menerimaBeaSiswaTahunKelasDari: Any? = null,
+	val menerimaBeaSiswaTahunKelasDari: String? = null,
 
 	@field:SerializedName("akhir_pendidikan_no_tanggal_skhun")
 	val akhirPendidikanNoTanggalSkhun: String? = null,
@@ -272,40 +272,40 @@ data class Jurusan(
 data class Wali(
 
 	@field:SerializedName("kewarganegaraan")
-	val kewarganegaraan: Any? = null,
+	val kewarganegaraan: String? = null,
 
 	@field:SerializedName("status_perubahan")
 	val statusPerubahan: String? = null,
 
 	@field:SerializedName("pengeluaran_per_bulan")
-	val pengeluaranPerBulan: Any? = null,
+	val pengeluaranPerBulan: String? = null,
 
 	@field:SerializedName("nama")
-	val nama: Any? = null,
+	val nama: String? = null,
 
 	@field:SerializedName("tempat_lahir")
-	val tempatLahir: Any? = null,
+	val tempatLahir: String? = null,
 
 	@field:SerializedName("pendidikan")
-	val pendidikan: Any? = null,
+	val pendidikan: String? = null,
 
 	@field:SerializedName("pekerjaan")
-	val pekerjaan: Any? = null,
+	val pekerjaan: String? = null,
 
 	@field:SerializedName("user_id")
 	val userId: Int? = null,
 
 	@field:SerializedName("alamat_dan_no_telepon")
-	val alamatDanNoTelepon: Any? = null,
+	val alamatDanNoTelepon: String? = null,
 
 	@field:SerializedName("agama")
-	val agama: Any? = null,
+	val agama: String? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
 
 	@field:SerializedName("tanggal_lahir")
-	val tanggalLahir: Any? = null
+	val tanggalLahir: String? = null
 )
 
 data class AyahKandung(
@@ -359,13 +359,13 @@ data class Pendidikan(
 	val statusPerubahan: String? = null,
 
 	@field:SerializedName("pindahan_dari_sekolah")
-	val pindahanDariSekolah: Any? = null,
+	val pindahanDariSekolah: String? = null,
 
 	@field:SerializedName("diterima_tanggal")
 	val diterimaTanggal: String? = null,
 
 	@field:SerializedName("pindahan_alasan")
-	val pindahanAlasan: Any? = null,
+	val pindahanAlasan: String? = null,
 
 	@field:SerializedName("diterima_di_paket_keahlian")
 	val diterimaDiPaketKeahlian: String? = null,

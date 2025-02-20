@@ -53,7 +53,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_edit_data -> {
-                    replaceFragment(EditDataFragment())
+                    val userId = intent.getIntExtra("USER_ID", 0)
+                    replaceFragment(EditDataFragment(), userId)
                     true
                 }
                 R.id.navigation_eraport -> {
