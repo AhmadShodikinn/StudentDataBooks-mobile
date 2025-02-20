@@ -31,8 +31,10 @@ class MainActivity : AppCompatActivity() {
 
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
-        val userRole = getUserRole()
-        if (userRole == "Admin") {
+        val isAdmin = intent.extras?.getBoolean("IS_ADMIN")
+        Log.d("MainAct", "isAdmin: $isAdmin")
+
+        if (isAdmin == true) {
             bottomNavigationView.menu.clear()
             bottomNavigationView.inflateMenu(R.menu.bottom_navigation_admin)
         } else {
@@ -96,8 +98,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-    private fun getUserRole(): Any {
-        return "Student"
-    }
 }

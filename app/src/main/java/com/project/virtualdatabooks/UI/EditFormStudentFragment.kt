@@ -112,10 +112,15 @@ class EditFormStudentFragment : Fragment() {
                 binding.layoutSetelahPendidikan.visibility = View.GONE
                 binding.layoutWali.visibility = View.GONE
                 binding.layoutHobi.visibility = View.GONE
+                binding.iconNoResult.visibility = View.GONE
 
                 optionSelected = position
 
                 when (position) {
+                    0 -> {
+                        binding.iconNoResult.visibility = View.VISIBLE
+                        binding.sendButton.visibility = View.GONE
+                    }
                     1 -> binding.layoutBiodata.visibility = View.VISIBLE
                     2 -> binding.layoutAlamat.visibility = View.VISIBLE
                     3 -> binding.layoutHealth.visibility = View.VISIBLE
@@ -129,9 +134,10 @@ class EditFormStudentFragment : Fragment() {
                 }
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>) {
-                binding.sendButton.visibility = View.GONE
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                TODO()
             }
+
         }
 
         binding.backButton.setOnClickListener {

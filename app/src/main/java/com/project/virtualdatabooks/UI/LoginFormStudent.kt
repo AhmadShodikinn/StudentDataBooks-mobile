@@ -66,6 +66,7 @@ class LoginFormStudent: AppCompatActivity() {
 
         val intent = Intent(this, MainActivity::class.java)
         intent.putExtra("USER_ID", userId)
+        intent.putExtra("IS_ADMIN", false)
         startActivity(intent)
     }
 }

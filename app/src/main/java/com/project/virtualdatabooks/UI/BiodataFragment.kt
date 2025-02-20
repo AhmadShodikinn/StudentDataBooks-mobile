@@ -103,16 +103,16 @@ class BiodataFragment : Fragment() {
             binding.tvFatherAddressAndPhone.text = "Alamat dan Telp : ${data.ayahKandung?.alamatDanNoTelepon ?: "Tidak ada data"}"
             binding.tvFatherStatus.text = "Masih Hidup/Meninggal Dunia : ${data.ayahKandung?.status ?: "Tidak ada data"}"
 
-            //Keterangan Ibu TIDAK ADA DATA DARI API
-//            binding.tvMotherName.text = "Nama : ${data.ibuKandung?.nama ?: "Tidak ada data"}"
-//            binding.tvMotherDob.text = "TTL : ${data.ibuKandung?.tempat_lahir}, ${data.ibuKandung?.tanggal_lahir ?: "Tidak ada data"}"
-//            binding.tvMotherReligion.text = "Agama : ${data.ibuKandung?.agama ?: "Tidak ada data"}"
-//            binding.tvMotherNationality.text = "Kewarganegaraan : ${data.ibuKandung?.kewarganegaraan ?: "Tidak ada data"}"
-//            binding.tvMotherEducation.text = "Riwayat Pendidikan : ${data.ibuKandung?.pendidikan ?: "Tidak ada data"}"
-//            binding.tvMotherOccupation.text = "Pekerjaan : ${data.ibuKandung?.pekerjaan ?: "Tidak ada data"}"
-//            binding.tvMotherExpenditure.text = "Pengeluaran per Bulan : ${data.ibuKandung?.pengeluaran_per_bulan ?: "Tidak ada data"}"
-//            binding.tvMotherAddressAndPhone.text = "Alamat dan Telp : ${data.ibuKandung?.alamat_dan_no_telepon ?: "Tidak ada data"}"
-//            binding.tvMotherStatus.text = "Masih Hidup/Meninggal Dunia : ${data.ibuKandung?.status ?: "Tidak ada data"}"
+            //Keterangan Ibu
+            binding.tvMotherName.text = "Nama : ${data.ibuKandung?.nama ?: "Tidak ada data"}"
+            binding.tvMotherDob.text = "TTL : ${data.ibuKandung?.tempatLahir}, ${data.ibuKandung?.tanggalLahir ?: "Tidak ada data"}"
+            binding.tvMotherReligion.text = "Agama : ${data.ibuKandung?.agama ?: "Tidak ada data"}"
+            binding.tvMotherNationality.text = "Kewarganegaraan : ${data.ibuKandung?.kewarganegaraan ?: "Tidak ada data"}"
+            binding.tvMotherEducation.text = "Riwayat Pendidikan : ${data.ibuKandung?.pendidikan ?: "Tidak ada data"}"
+            binding.tvMotherOccupation.text = "Pekerjaan : ${data.ibuKandung?.pekerjaan ?: "Tidak ada data"}"
+            binding.tvMotherExpenditure.text = "Pengeluaran per Bulan : ${data.ibuKandung?.pengeluaranPerBulan ?: "Tidak ada data"}"
+            binding.tvMotherAddressAndPhone.text = "Alamat dan Telp : ${data.ibuKandung?.alamatDanNoTelepon ?: "Tidak ada data"}"
+            binding.tvMotherStatus.text = "Masih Hidup/Meninggal Dunia : ${data.ibuKandung?.status ?: "Tidak ada data"}"
 
             //Keterangan Wali
             binding.tvGuardianName.text = "Nama : ${data.wali?.nama ?: "Tidak ada data"}"
@@ -140,9 +140,11 @@ class BiodataFragment : Fragment() {
 
         binding.informationButton.setOnClickListener {
             val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.fragment_container, EditFormStudentFragment())
+            transaction?.addToBackStack(null)
+            transaction?.commit()
         }
 
-//        showCustomSnackbar()
     }
 
     private fun showCustomSnackbar() {

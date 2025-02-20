@@ -64,6 +64,7 @@ class LoginFormOTPAdmin: AppCompatActivity() {
         Toast.makeText(this, "Login berhasil. Selamat datang", Toast.LENGTH_SHORT).show()
 
         val intent = Intent(this, MainActivity::class.java)
+        intent.putExtra("IS_ADMIN", true)
         startActivity(intent)
         finish()
     }
