@@ -12,6 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.virtualdatabooks.UI.BiodataFragment
 import com.project.virtualdatabooks.UI.DashboardFragment
 import com.project.virtualdatabooks.UI.ERaportFragment
+import com.project.virtualdatabooks.UI.EditDataAdminFragment
 import com.project.virtualdatabooks.UI.EditDataFragment
 import com.project.virtualdatabooks.UI.StudentDataFragment
 
@@ -55,6 +56,10 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_edit_data -> {
                     val userId = intent.getIntExtra("USER_ID", 0)
                     replaceFragment(EditDataFragment(), userId)
+                    true
+                }
+                R.id.navigation_edit_data_admin -> {
+                    replaceFragment(EditDataAdminFragment())
                     true
                 }
                 R.id.navigation_eraport -> {

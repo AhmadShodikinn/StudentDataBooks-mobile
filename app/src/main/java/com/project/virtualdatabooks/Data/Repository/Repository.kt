@@ -1,5 +1,7 @@
 package com.project.virtualdatabooks.Data.Repository
 
+import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
+import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
 import com.project.virtualdatabooks.Data.Request.AdminLoginRequest
 import com.project.virtualdatabooks.Data.Request.AdminOTPRequest
 import com.project.virtualdatabooks.Data.Request.StudentLoginRequest
@@ -49,5 +51,13 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun updateStudentData(request: StudentUpdateRequest): StudentUpdateResponse {
         return apiService.updateStudentData(request)
+    }
+
+    suspend fun getDataJurusan(): List<ItemJurusanItem> {
+        return apiService.getJurusanData()
+    }
+
+    suspend fun getDataAngkatan(): List<ItemAngkatanItem> {
+        return apiService.getAngkatan()
     }
 }

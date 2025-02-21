@@ -10,7 +10,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.project.virtualdatabooks.Data.Repository.Repository
@@ -24,29 +23,16 @@ import com.project.virtualdatabooks.Data.Request.DataPerkembangan
 import com.project.virtualdatabooks.Data.Request.DataSetelahPendidikan
 import com.project.virtualdatabooks.Data.Request.DataTempatTinggal
 import com.project.virtualdatabooks.Data.Request.DataWali
-import com.project.virtualdatabooks.Data.Request.StudentUpdateAyahRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateDataDiriRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateHobiRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateIbuRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateKesehatanRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdatePendidikanRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdatePerkembanganRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 //import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
-import com.project.virtualdatabooks.Data.Response.Kesehatan
 //import com.project.virtualdatabooks.Data.Request.TempatTinggal
 //import com.project.virtualdatabooks.Data.Request.Wali
 import com.project.virtualdatabooks.Data.ViewModel.StudentViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.ViewModelFactory
 import com.project.virtualdatabooks.Network.ApiConfig
 import com.project.virtualdatabooks.R
-import com.project.virtualdatabooks.StudentNotifyUpdate
 import com.project.virtualdatabooks.Support.TokenHandler
 import com.project.virtualdatabooks.databinding.FragmentEditFormStudentBinding
-import okhttp3.internal.indexOf
 import java.text.SimpleDateFormat
 import java.util.Locale
 

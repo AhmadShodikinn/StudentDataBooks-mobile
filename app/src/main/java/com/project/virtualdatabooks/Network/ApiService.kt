@@ -1,5 +1,7 @@
 package com.project.virtualdatabooks.Network
 
+import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
+import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
 import com.project.virtualdatabooks.Data.Request.AdminLoginRequest
 import com.project.virtualdatabooks.Data.Request.AdminOTPRequest
 import com.project.virtualdatabooks.Data.Request.StudentLoginRequest
@@ -20,6 +22,7 @@ import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
@@ -35,6 +38,12 @@ interface ApiService {
 
     @GET("admin/dashboard")
     suspend fun fetchDashboardData(): AdminDashboardResponse
+
+    @GET("admin/jurusan")
+    suspend fun getJurusanData(): List<ItemJurusanItem>
+
+    @GET("admin/angkatan")
+    suspend fun getAngkatan(): List<ItemAngkatanItem>
 
     @POST("auth/login-siswa")
     suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): StudentLoginResponse
