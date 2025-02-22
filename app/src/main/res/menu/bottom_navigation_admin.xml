@@ -14,7 +14,7 @@
         android:icon="@drawable/ic_datatable"
         android:title="Data Siswa"/>
     <item
-        android:id="@+id/navigation_eraport"
+        android:id="@+id/navigation_eraport_admin"
         android:icon="@drawable/ic_table"
         android:title="E-Raport"/>
 </menu>

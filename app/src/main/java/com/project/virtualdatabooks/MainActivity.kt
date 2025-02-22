@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.virtualdatabooks.UI.BiodataFragment
 import com.project.virtualdatabooks.UI.DashboardFragment
+import com.project.virtualdatabooks.UI.ERaportAdminFragment
 import com.project.virtualdatabooks.UI.ERaportFragment
 import com.project.virtualdatabooks.UI.EditDataAdminFragment
 import com.project.virtualdatabooks.UI.EditDataFragment
@@ -64,6 +65,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.navigation_eraport -> {
                     replaceFragment(ERaportFragment())
+                    true
+                }
+                R.id.navigation_eraport_admin -> {
+                    replaceFragment(ERaportAdminFragment())
                     true
                 }
                 R.id.navigation_data_siswa -> {
