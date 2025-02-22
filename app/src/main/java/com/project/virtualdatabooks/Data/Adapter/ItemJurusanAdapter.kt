@@ -25,7 +25,7 @@ class ItemJurusanAdapter(
         return viewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: viewHolder, position: Int) {
+    override fun onBindViewHolder(holder: viewHolder , position: Int) {
         val currentItem = itemJurusan[position]
         holder.namaJurusan.text = currentItem.nama
 

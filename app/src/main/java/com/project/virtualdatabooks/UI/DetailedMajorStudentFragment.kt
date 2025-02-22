@@ -58,6 +58,10 @@ class DetailedMajorStudentFragment : Fragment() {
             else -> "Rekayasa Perangkat Lunak"
         }
 
+        binding.buttonBack.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         return binding.root
     }
 

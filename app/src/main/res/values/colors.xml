@@ -16,6 +16,7 @@
     <color name="primaryButtonEditForm">#0C7FDA</color>
     <color name="formBorderColor">#B8B8B8</color>
     <color name="cardBackground">#66A7FF</color>
+    <color name="tabelTextColor">#464F60</color>
 
 
 </resources>

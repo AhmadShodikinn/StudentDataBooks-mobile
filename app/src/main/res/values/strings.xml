@@ -14,6 +14,7 @@
     <string name="subtitleFormOTP">Kami telah mengirimkan kode OTP ke email Anda.</string>
     <string name="customSnackbarTitle">Apakah Ada Data Pribadimu\nYang Salah?</string>
     <string name="SelectedForm">Pilih Form</string>
+    <string name="backButtonDetailedMajor">Kembali</string>
     <string-array name="spinner_items">
         <item>Pilih Form</item>
         <item>Biodata</item>

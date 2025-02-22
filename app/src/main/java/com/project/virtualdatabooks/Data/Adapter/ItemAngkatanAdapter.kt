@@ -1,14 +1,17 @@
 package com.project.virtualdatabooks.Data.Adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.UI.DetailedMajorDataFragment
 
 class ItemAngkatanAdapter(
     private val context: Context,
@@ -56,6 +59,21 @@ class ItemAngkatanAdapter(
             "EI" -> holder.iconJurusan.setImageResource(R.mipmap.ic_tei_foreground)
             "MEK" -> holder.iconJurusan.setImageResource(R.mipmap.ic_mekatro_foreground)
             else -> holder.iconJurusan.setImageResource(R.mipmap.ic_rpl_foreground)
+        }
+
+        holder.itemView.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("CLASS_NAME", adjustedClassMajor)
+            bundle.putString("MAJOR", compendiumMajor)
+
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+
+            val detailedMajorDataFragment = DetailedMajorDataFragment()
+            detailedMajorDataFragment.arguments = bundle
+
+            transaction.replace(R.id.fragment_container, detailedMajorDataFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 
