@@ -17,6 +17,7 @@
     <color name="formBorderColor">#B8B8B8</color>
     <color name="cardBackground">#66A7FF</color>
     <color name="tabelTextColor">#464F60</color>
+    <color name="textEraporInput">#80000000</color>
 
 
 </resources>

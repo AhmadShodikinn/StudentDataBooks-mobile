@@ -6,161 +6,167 @@
     android:layout_height="match_parent"
     tools:context=".UI.ERaportFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="E-Raport"
-        android:textSize="32sp"
-        android:textFontWeight="800"
-        android:fontFamily="@font/opensans_bold"
-        android:textColor="@color/profileColorTitle"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="16dp"
-        android:textStyle="bold"/>
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="50dp"
-        android:padding="16dp">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:orientation="vertical"
+            android:layout_marginBottom="70dp">
 
             <TextView
-                android:id="@+id/tv_raporName"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Nama Siswa"
+                android:text="E-Raport"
+                android:textSize="32sp"
+                android:textFontWeight="800"
                 android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
+                android:textColor="@color/profileColorTitle"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"/>
 
-            <TextView
-                android:id="@+id/tv_raporBidangKeahlian"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Bidang Keahlian (TIK)"
-                android:textAlignment="textEnd"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/tv_raporName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Nama Siswa"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_raporBidangKeahlian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bidang Keahlian (TIK)"
+                        android:textAlignment="textEnd"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:id="@+id/tv_raporNisn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="NISN (11223344554)"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_raporProgramKehalian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Program Keahlian (TKI)"
+                        android:textAlignment="textEnd"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="SMK Negeri 2 Singosari"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_raporKompentensiKeahlian"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Kompetensi Keahlian (RPL)"
+                        android:textAlignment="textEnd"
+                        android:fontFamily="@font/opensans_bold"
+                        android:textColor="@color/tabelTextColor"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/erapor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:src="@drawable/erapor"
+                    />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical"
+                    android:weightSum="2">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonBack"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+                        android:layout_marginEnd="100dp"
+                        android:backgroundTint="@color/secondaryButtonTint"
+                        android:text="@string/backButtonDetailedMajor"
+                        android:textSize="12sp"
+                        android:textColor="@color/white"
+                        app:icon="@mipmap/ic_backbtn_foreground"
+                        app:cornerRadius="9dp"
+                        />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonNext"
+                        android:layout_width="120dp"
+                        android:layout_height="48dp"
+                        android:backgroundTint="@android:color/white"
+                        android:text="@string/backButtonDetailedMajor"
+                        app:iconGravity="textEnd"
+                        app:icon="@drawable/ic_rightbtn"
+                        app:iconTint="@color/secondaryButtonTint"
+                        android:textSize="12sp"
+                        android:textColor="@color/secondaryButtonTint"                app:cornerRadius="9dp"
+                        app:strokeColor="@color/secondaryButtonTint"
+                        app:strokeWidth="2dp"
+                        />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:id="@+id/tv_raporNisn"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="NISN (11223344554)"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
-
-            <TextView
-                android:id="@+id/tv_raporProgramKehalian"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Program Keahlian (TKI)"
-                android:textAlignment="textEnd"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="SMK Negeri 2 Singosari"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
-
-            <TextView
-                android:id="@+id/tv_raporKompentensiKeahlian"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Kompetensi Keahlian (RPL)"
-                android:textAlignment="textEnd"
-                android:fontFamily="@font/opensans_bold"
-                android:textColor="@color/tabelTextColor"
-                android:textSize="13sp"/>
-        </LinearLayout>
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/img_erapor"
-            />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            android:gravity="center_vertical"
-            android:weightSum="2">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonBack"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:layout_marginEnd="100dp"
-                android:backgroundTint="@color/secondaryButtonTint"
-                android:text="@string/backButtonDetailedMajor"
-                android:textSize="12sp"
-                android:textColor="@color/white"
-                app:icon="@mipmap/ic_backbtn_foreground"
-                app:cornerRadius="9dp"
-                />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/buttonNext"
-                android:layout_width="120dp"
-                android:layout_height="48dp"
-                android:backgroundTint="@android:color/white"
-                android:text="@string/backButtonDetailedMajor"
-                app:iconGravity="textEnd"
-                app:icon="@drawable/ic_rightbtn"
-                app:iconTint="@color/secondaryButtonTint"
-                android:textSize="12sp"
-                android:textColor="@color/secondaryButtonTint"                app:cornerRadius="9dp"
-                app:strokeColor="@color/secondaryButtonTint"
-                app:strokeWidth="2dp"
-                />
-
-        </LinearLayout>
-
-
-
-
-
-
-
-
-    </LinearLayout>
+    </ScrollView>
 
 
 
