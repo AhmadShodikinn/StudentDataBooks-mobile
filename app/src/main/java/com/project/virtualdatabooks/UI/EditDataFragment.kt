@@ -26,7 +26,6 @@ class EditDataFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentEditDataBinding.inflate(inflater, container, false)
 
         binding.informationButton.setOnClickListener {

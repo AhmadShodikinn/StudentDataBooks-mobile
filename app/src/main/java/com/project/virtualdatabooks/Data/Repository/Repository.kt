@@ -17,8 +17,10 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanR
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
+import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
@@ -59,5 +61,9 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun getDataAngkatan(): List<ItemAngkatanItem> {
         return apiService.getAngkatan()
+    }
+
+    suspend fun getAllPendingRequest(): List<AdminGetPendingResponse> {
+        return apiService.getAllPendingRequest()
     }
 }

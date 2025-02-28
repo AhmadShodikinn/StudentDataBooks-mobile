@@ -9,6 +9,8 @@ import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
 import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
+import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
 
 class AdminViewModel(private val repository: Repository): ViewModel() {
@@ -20,6 +22,9 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
 
     private val _dataAngkatan = MutableLiveData<List<ItemAngkatanItem>>()
     val dataAngkatan: LiveData<List<ItemAngkatanItem>> = _dataAngkatan
+
+    private val _listDataPending = MutableLiveData<List<AdminGetPendingResponse>> ()
+    val listDataPending: LiveData<List<AdminGetPendingResponse>> = _listDataPending
 
     fun fetchDashboardData(){
         viewModelScope.launch {
@@ -39,6 +44,13 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             val response = repository.getDataAngkatan()
             _dataAngkatan.value = response
+        }
+    }
+
+    fun getAllPendingRequest() {
+        viewModelScope.launch {
+            val response = repository.getAllPendingRequest()
+            _listDataPending.value = response
         }
     }
 }

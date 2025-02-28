@@ -15,6 +15,7 @@
     <string name="customSnackbarTitle">Apakah Ada Data Pribadimu\nYang Salah?</string>
     <string name="SelectedForm">Pilih Form</string>
     <string name="backButtonDetailedMajor">Kembali</string>
+    <string name="cardPrimaryDescription">Permintaan perubahan Biodata!\nPeriksa Permintaan Perubahan!</string>
     <string-array name="spinner_items">
         <item>Pilih Form</item>
         <item>Biodata</item>
