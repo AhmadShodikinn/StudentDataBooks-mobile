@@ -10,6 +10,7 @@ import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
 import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
 
@@ -23,8 +24,8 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
     private val _dataAngkatan = MutableLiveData<List<ItemAngkatanItem>>()
     val dataAngkatan: LiveData<List<ItemAngkatanItem>> = _dataAngkatan
 
-    private val _listDataPending = MutableLiveData<List<AdminGetPendingResponse>> ()
-    val listDataPending: LiveData<List<AdminGetPendingResponse>> = _listDataPending
+    private val _listDataPending = MutableLiveData<AdminGetPendingResponse> ()
+    val listDataPending: LiveData<AdminGetPendingResponse> = _listDataPending
 
     fun fetchDashboardData(){
         viewModelScope.launch {

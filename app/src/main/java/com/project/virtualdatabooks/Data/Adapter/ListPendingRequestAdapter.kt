@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import com.project.virtualdatabooks.R
 
 class ListPendingRequestAdapter(
     private val context: Context,
-    private val adminGetPendingResponse: List<AdminGetPendingResponse>
+    private val data: List<PendingDataItem>
 ): RecyclerView.Adapter<ListPendingRequestAdapter.viewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -23,14 +24,14 @@ class ListPendingRequestAdapter(
     }
 
     override fun onBindViewHolder(holder: ListPendingRequestAdapter.viewHolder, position: Int) {
-        val currentItem = adminGetPendingResponse[position]
+        val currentItem = data[position]
 
-        holder.cardName.text = currentItem.data?.size.toString()
+        holder.cardName.text = currentItem.dataDiri?.namaLengkap
 
     }
 
     override fun getItemCount(): Int {
-        return adminGetPendingResponse.size
+        return data.size
     }
 
     inner class viewHolder(itemVIew: View) : RecyclerView.ViewHolder(itemVIew) {

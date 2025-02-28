@@ -253,56 +253,62 @@ data class PendingKesehatan(
 
 data class PendingDataItem(
 
-	@field:SerializedName("ibu_kandung")
-	val ibuKandung: PendingIbuKandung? = null,
-
+//	@field:SerializedName("ibu_kandung")
+//	val ibuKandung: PendingIbuKandung? = null,
+//
 	@field:SerializedName("data_diri")
 	val dataDiri: PendingDataDiri? = null,
-
-	@field:SerializedName("kesehatan")
-	val kesehatan: PendingKesehatan? = null,
-
-	@field:SerializedName("setelah_pendidikan")
-	val setelahPendidikan: PendingSetelahPendidikan? = null,
-
-	@field:SerializedName("pendidikan")
-	val pendidikan: PendingPendidikan? = null,
-
-	@field:SerializedName("nisn")
-	val nisn: String? = null,
-
-	@field:SerializedName("angkatan")
-	val angkatan: PendingAngkatan? = null,
-
-	@field:SerializedName("jurusan")
-	val jurusan: PendingJurusan? = null,
-
-	@field:SerializedName("tempat_tinggal")
-	val tempatTinggal: PendingTempatTinggal? = null,
-
-	@field:SerializedName("token")
-	val token: String? = null,
-
-	@field:SerializedName("wali")
-	val wali: PendingWali? = null,
-
-	@field:SerializedName("hobi_siswa")
-	val hobiSiswa: PendingHobiSiswa? = null,
-
-	@field:SerializedName("ayah_kandung")
-	val ayahKandung: PendingAyahKandung? = null,
+//
+//	@field:SerializedName("kesehatan")
+//	val kesehatan: PendingKesehatan? = null,
+//
+//	@field:SerializedName("setelah_pendidikan")
+//	val setelahPendidikan: PendingSetelahPendidikan? = null,
+//
+//	@field:SerializedName("pendidikan")
+//	val pendidikan: PendingPendidikan? = null,
+//
+//	@field:SerializedName("nisn")
+//	val nisn: String? = null,
+//
+//	@field:SerializedName("angkatan")
+//	val angkatan: PendingAngkatan? = null,
+//
+//	@field:SerializedName("jurusan")
+//	val jurusan: PendingJurusan? = null,
+//
+//	@field:SerializedName("tempat_tinggal")
+//	val tempatTinggal: PendingTempatTinggal? = null,
+//
+//	@field:SerializedName("token")
+//	val token: String? = null,
+//
+//	@field:SerializedName("wali")
+//	val wali: PendingWali? = null,
+//
+//	@field:SerializedName("hobi_siswa")
+//	val hobiSiswa: PendingHobiSiswa? = null,
+//
+//	@field:SerializedName("ayah_kandung")
+//	val ayahKandung: PendingAyahKandung? = null,
 
 	@field:SerializedName("id")
 	val id: Int? = null,
 
-	@field:SerializedName("angkatan_id")
-	val angkatanId: Int? = null,
 
-	@field:SerializedName("jurusan_id")
-	val jurusanId: Int? = null,
+	//ngide
+//	@field:SerializedName("nama_lengkap")
+//	val namaLengkap: String? = null,
 
-	@field:SerializedName("perkembangan")
-	val perkembangan: PendingPerkembangan? = null
+
+//	@field:SerializedName("angkatan_id")
+//	val angkatanId: Int? = null,
+//
+//	@field:SerializedName("jurusan_id")
+//	val jurusanId: Int? = null,
+//
+//	@field:SerializedName("perkembangan")
+//	val perkembangan: PendingPerkembangan? = null
 )
 
 data class PendingJurusan(

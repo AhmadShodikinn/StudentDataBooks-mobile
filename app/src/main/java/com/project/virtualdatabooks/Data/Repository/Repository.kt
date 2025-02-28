@@ -20,6 +20,7 @@ import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
@@ -63,7 +64,7 @@ class Repository(private val apiService: ApiService) {
         return apiService.getAngkatan()
     }
 
-    suspend fun getAllPendingRequest(): List<AdminGetPendingResponse> {
+    suspend fun getAllPendingRequest(): AdminGetPendingResponse {
         return apiService.getAllPendingRequest()
     }
 }

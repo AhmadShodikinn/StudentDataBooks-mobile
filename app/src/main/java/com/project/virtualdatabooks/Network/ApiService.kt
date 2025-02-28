@@ -20,6 +20,7 @@ import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
+import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
@@ -48,7 +49,7 @@ interface ApiService {
     suspend fun getAngkatan(): List<ItemAngkatanItem>
 
     @GET("admin/data-diri/pending")
-    suspend fun getAllPendingRequest(): List<AdminGetPendingResponse>
+    suspend fun getAllPendingRequest(): AdminGetPendingResponse
 
     @POST("auth/login-siswa")
     suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): StudentLoginResponse

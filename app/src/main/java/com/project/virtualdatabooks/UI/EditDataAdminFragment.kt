@@ -1,6 +1,7 @@
 package com.project.virtualdatabooks.UI
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -55,9 +56,17 @@ class EditDataAdminFragment: Fragment() {
 
         adminViewModel.getAllPendingRequest()
 
-        adminViewModel.listDataPending.observe(viewLifecycleOwner, {  data ->
-            adapter = ListPendingRequestAdapter(requireContext(), data)
-            recyclerView.adapter = adapter
+        adminViewModel.listDataPending.observe(viewLifecycleOwner, {  response ->
+
+            Log.d("EditDataFragment", "Data: $response")
+
+            response?.data?.let { data ->
+
+                val filteredData = data.filterNotNull()
+                adapter = ListPendingRequestAdapter(requireContext(), filteredData)
+                recyclerView.adapter = adapter
+            }
+
         })
     }
 
