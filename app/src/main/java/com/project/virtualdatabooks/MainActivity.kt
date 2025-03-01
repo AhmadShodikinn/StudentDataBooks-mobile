@@ -10,7 +10,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.virtualdatabooks.UI.BiodataFragment
-import com.project.virtualdatabooks.UI.DashboardFragment
+import com.project.virtualdatabooks.UI.DashboardAdminFragment
+import com.project.virtualdatabooks.UI.DashboardStudentFragment
 import com.project.virtualdatabooks.UI.ERaportAdminFragment
 import com.project.virtualdatabooks.UI.ERaportFragment
 import com.project.virtualdatabooks.UI.EditDataAdminFragment
@@ -45,13 +46,17 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            replaceFragment(DashboardFragment())
+            replaceFragment(DashboardAdminFragment())
         }
 
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.navigation_home -> {
-                    replaceFragment(DashboardFragment())
+                    replaceFragment(DashboardStudentFragment())
+                    true
+                }
+                R.id.navigation_home_admin -> {
+                    replaceFragment(DashboardAdminFragment())
                     true
                 }
                 R.id.navigation_edit_data -> {
@@ -86,10 +91,10 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                if (activeFragment is DashboardFragment) {
+                if (activeFragment is DashboardAdminFragment) {
                     finishAffinity()
                 } else {
-                    replaceFragment(DashboardFragment())
+                    replaceFragment(DashboardAdminFragment())
                     bottomNavigationView.selectedItemId = R.id.navigation_home
                 }
             }

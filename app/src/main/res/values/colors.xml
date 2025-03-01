@@ -20,6 +20,7 @@
     <color name="cardBackground">#66A7FF</color>
     <color name="tabelTextColor">#464F60</color>
     <color name="textEraporInput">#80000000</color>
+    <color name="whiteBone">#F8F8FF</color>
 
 
 </resources>
