@@ -16,7 +16,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UI.StudentNotifyUpdate"
+            android:name=".UI.NotifactionUpdate"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

@@ -101,19 +101,19 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/confirmation_button"
-            android:layout_width="70dp"
-            android:layout_height="32dp"
+            android:layout_width="100dp"
+            android:layout_height="48dp"
             android:layout_gravity="center|end"
             android:backgroundTint="#FFFFFF"
             android:text="Periksa"
             app:icon="@drawable/ic_play"
             app:iconTint="#484C52"
-            app:iconSize="10dp"
+            app:iconSize="14dp"
             android:textColor="#484C52"
-            android:textSize="10sp"
+            android:textSize="14sp"
             app:iconGravity="textEnd"
             android:padding="0dp"
-            app:iconPadding="5dp"
+            app:iconPadding="10dp"
             app:cornerRadius="3dp" />
 
     </LinearLayout>

@@ -16,7 +16,9 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
+import com.project.virtualdatabooks.Data.Response.AdminAccDeccResponse
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
+import com.project.virtualdatabooks.Data.Response.AdminGetPendingRequestByIdResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
@@ -27,9 +29,11 @@ import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -50,6 +54,15 @@ interface ApiService {
 
     @GET("admin/data-diri/pending")
     suspend fun getAllPendingRequest(): AdminGetPendingResponse
+
+    @GET("admin/data-diri/pending/{id}")
+    suspend fun getPendingRequestById(@Path("id") id: Int): AdminGetPendingRequestByIdResponse
+
+    @POST("admin/data-diri/pending/{id}")
+    suspend fun acceptedPendingRequest(@Path("id") id: Int): AdminAccDeccResponse
+
+    @DELETE("admin/data-diri/pending/{id}")
+    suspend fun deletePendingRequest(@Path("id") id: Int): AdminAccDeccResponse
 
     @POST("auth/login-siswa")
     suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): StudentLoginResponse

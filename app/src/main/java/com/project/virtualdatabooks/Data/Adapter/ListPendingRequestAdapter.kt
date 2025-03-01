@@ -1,15 +1,19 @@
 package com.project.virtualdatabooks.Data.Adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.UI.EditFormAdminFragment
 
 class ListPendingRequestAdapter(
     private val context: Context,
@@ -28,6 +32,20 @@ class ListPendingRequestAdapter(
 
         holder.cardName.text = currentItem.dataDiri?.namaLengkap
 
+        holder.buttonAction.setOnClickListener {
+            val bundle = Bundle()
+            currentItem.id?.let { id -> bundle.putInt("STUDENT_ID", id) }
+
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+
+            val editFormAdminFragment = EditFormAdminFragment()
+            editFormAdminFragment.arguments = bundle
+
+            transaction.replace(R.id.fragment_container, editFormAdminFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -36,6 +54,7 @@ class ListPendingRequestAdapter(
 
     inner class viewHolder(itemVIew: View) : RecyclerView.ViewHolder(itemVIew) {
         val cardName: TextView = itemView.findViewById(R.id.studentNamePending)
+        val buttonAction: Button = itemVIew.findViewById(R.id.confirmation_button)
     }
 
 

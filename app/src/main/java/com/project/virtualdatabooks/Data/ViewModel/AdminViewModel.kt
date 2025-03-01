@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
 import com.project.virtualdatabooks.Data.Repository.Repository
+import com.project.virtualdatabooks.Data.Response.AdminAccDeccResponse
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
+import com.project.virtualdatabooks.Data.Response.AdminGetPendingRequestByIdResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
@@ -26,6 +28,12 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
 
     private val _listDataPending = MutableLiveData<AdminGetPendingResponse> ()
     val listDataPending: LiveData<AdminGetPendingResponse> = _listDataPending
+
+    private val _dataPendingRequestById = MutableLiveData<AdminGetPendingRequestByIdResponse> ()
+    val dataPendingRequestByIdResponse: LiveData<AdminGetPendingRequestByIdResponse> = _dataPendingRequestById
+
+    private val _acceptedDeclineResponse = MutableLiveData<AdminAccDeccResponse> ()
+    val acceptedDeclineResponse: LiveData<AdminAccDeccResponse> = _acceptedDeclineResponse
 
     fun fetchDashboardData(){
         viewModelScope.launch {
@@ -52,6 +60,27 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
         viewModelScope.launch {
             val response = repository.getAllPendingRequest()
             _listDataPending.value = response
+        }
+    }
+
+    fun getPendingRequestById(id: Int) {
+        viewModelScope.launch {
+            val response = repository.getPendingRequestById(id)
+            _dataPendingRequestById.value = response
+        }
+    }
+
+    fun acceptedPendingRequest(id: Int) {
+        viewModelScope.launch {
+            val response = repository.acceptedPendingRequest(id)
+            _acceptedDeclineResponse.value = response
+        }
+    }
+
+    fun declinePendingRequest(id: Int) {
+        viewModelScope.launch {
+            val response = repository.deletePendingRequest(id)
+            _acceptedDeclineResponse.value = response
         }
     }
 }

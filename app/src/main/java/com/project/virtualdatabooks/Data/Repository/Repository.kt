@@ -16,7 +16,9 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
+import com.project.virtualdatabooks.Data.Response.AdminAccDeccResponse
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
+import com.project.virtualdatabooks.Data.Response.AdminGetPendingRequestByIdResponse
 import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.AdminLoginResponse
 import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
@@ -67,4 +69,18 @@ class Repository(private val apiService: ApiService) {
     suspend fun getAllPendingRequest(): AdminGetPendingResponse {
         return apiService.getAllPendingRequest()
     }
+
+    suspend fun getPendingRequestById(id: Int): AdminGetPendingRequestByIdResponse {
+        return apiService.getPendingRequestById(id)
+    }
+
+    suspend fun acceptedPendingRequest(id: Int): AdminAccDeccResponse {
+        return apiService.acceptedPendingRequest(id)
+    }
+
+    suspend fun deletePendingRequest(id: Int): AdminAccDeccResponse {
+        return apiService.deletePendingRequest(id)
+    }
+
+
 }

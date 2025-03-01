@@ -19,6 +19,8 @@ class EditDataFragment : Fragment() {
 
         userId = arguments?.getInt("USER_ID")
 
+
+
         Log.d("EditFormStudentFragment", "USER_ID: $userId")
     }
 

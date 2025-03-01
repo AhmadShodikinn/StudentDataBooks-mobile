@@ -157,7 +157,9 @@ class EditFormStudentFragment : Fragment() {
 
         studentViewModel.updateStudentBiodata.observe( viewLifecycleOwner, { response ->
             if (response.message != null){
-                    val intent = Intent(requireContext(), StudentNotifyUpdate::class.java)
+                    val intent = Intent(requireContext(), NotifactionUpdate::class.java)
+                    intent.putExtra("HEADER_MESSAGE", "Form Berhasil Diajukan!")
+                    intent.putExtra("SUBTITLE_MESSAGE", "Terimakasih, Form telah berhasil diajukan !.")
                     activity?.startActivity(intent)
                 }
             }
