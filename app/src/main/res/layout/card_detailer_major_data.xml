@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="392dp"
+    android:layout_width="match_parent"
     android:layout_height="75dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginLeft="12dp"
     android:orientation="vertical"
     android:background="#EFF2F4"
     android:gravity="start">
@@ -12,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:padding="16dp"
         android:background="@drawable/background_table_body"
         android:gravity="center_vertical">
 

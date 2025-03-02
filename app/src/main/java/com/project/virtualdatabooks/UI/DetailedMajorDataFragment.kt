@@ -1,20 +1,43 @@
 package com.project.virtualdatabooks.UI
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.project.virtualdatabooks.Data.Adapter.ListSearchResultAdapter
+import com.project.virtualdatabooks.Data.Repository.Repository
+import com.project.virtualdatabooks.Data.ViewModel.AdminViewModel
+import com.project.virtualdatabooks.Data.ViewModelFactory.ViewModelFactory
+import com.project.virtualdatabooks.Network.ApiConfig
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.Support.TokenHandler
 import com.project.virtualdatabooks.databinding.FragmentDetailedMajorDataBinding
 
 
 class DetailedMajorDataFragment : Fragment() {
     private lateinit var binding: FragmentDetailedMajorDataBinding
+    private lateinit var adminViewModel: AdminViewModel
+    private lateinit var adapter: ListSearchResultAdapter
+    private lateinit var tokenHandler: TokenHandler
+    private var majorFullName: String = ""
+    private var year: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        tokenHandler = TokenHandler(requireContext())
+        val token = tokenHandler.getToken() ?: ""
+
+        val repository = Repository(ApiConfig.getApiService(token))
+        val factory = ViewModelFactory(repository, requireContext())
+
+        adminViewModel = ViewModelProvider(this, factory).get(AdminViewModel::class.java)
     }
 
     override fun onCreateView(
@@ -22,6 +45,12 @@ class DetailedMajorDataFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailedMajorDataBinding.inflate(inflater, container, false)
+
+        majorFullName = arguments?.getString("MAJOR_FULLNAME") ?: "TIDAK ADA DATA"
+        year = arguments?.getString("YEAR") ?: "TIDAK ADA DATA"
+
+        Log.d("DetailedMajorData", "MajorFullName: $majorFullName")
+        Log.d("DetailedMajorData", "year: $year")
 
         val className = arguments?.getString("CLASS_NAME") ?: "TIDAK ADA DATA"
         val classLogo = arguments?.getString("MAJOR") ?: "TIDAK ADA DATA"
@@ -44,4 +73,36 @@ class DetailedMajorDataFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val recyclerView: RecyclerView = binding.rvDetailedMajorData
+        adapter = ListSearchResultAdapter(requireContext(), emptyList())
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.adapter = adapter
+
+        val searchView: SearchView = binding.searchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(searchText: String?): Boolean {
+                searchText?.let {
+                    adminViewModel.getAkunByMajorYearName(
+                        majorFullName,
+                        year,
+                        searchText)
+                }
+                return true
+            }
+        })
+
+        adminViewModel.listDataSearchByMajorYearName.observe(viewLifecycleOwner, { data ->
+            adapter = ListSearchResultAdapter(requireContext(), data)
+            recyclerView.adapter = adapter
+        })
+
+    }
 }

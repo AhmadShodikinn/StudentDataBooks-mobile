@@ -2,6 +2,7 @@ package com.project.virtualdatabooks.Data.Repository
 
 import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
+import com.project.virtualdatabooks.Data.DataClass.ItemSearchItem
 import com.project.virtualdatabooks.Data.Request.AdminLoginRequest
 import com.project.virtualdatabooks.Data.Request.AdminOTPRequest
 import com.project.virtualdatabooks.Data.Request.StudentLoginRequest
@@ -81,6 +82,14 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun deletePendingRequest(id: Int): Response<AdminAccDeccResponse> {
         return apiService.deletePendingRequest(id)
+    }
+
+    suspend fun getAkunByMajorYearName(
+        jurusan: String,
+        angkatan: String,
+        search: String
+    ): Response<List<ItemSearchItem>> {
+        return apiService.getAkunByMajorYearName(jurusan, angkatan, search)
     }
 
 

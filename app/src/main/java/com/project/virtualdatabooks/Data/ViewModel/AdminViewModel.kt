@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
+import com.project.virtualdatabooks.Data.DataClass.ItemSearchItem
 import com.project.virtualdatabooks.Data.Repository.Repository
 import com.project.virtualdatabooks.Data.Response.AdminAccDeccResponse
 import com.project.virtualdatabooks.Data.Response.AdminDashboardResponse
@@ -30,14 +31,17 @@ class AdminViewModel(private val repository: Repository, private val context: Co
     private val _dataAngkatan = MutableLiveData<List<ItemAngkatanItem>>()
     val dataAngkatan: LiveData<List<ItemAngkatanItem>> = _dataAngkatan
 
-    private val _listDataPending = MutableLiveData<AdminGetPendingResponse> ()
+    private val _listDataPending = MutableLiveData<AdminGetPendingResponse>()
     val listDataPending: LiveData<AdminGetPendingResponse> = _listDataPending
 
-    private val _dataPendingRequestById = MutableLiveData<AdminGetPendingRequestByIdResponse> ()
+    private val _dataPendingRequestById = MutableLiveData<AdminGetPendingRequestByIdResponse>()
     val dataPendingRequestByIdResponse: LiveData<AdminGetPendingRequestByIdResponse> = _dataPendingRequestById
 
-    private val _acceptedDeclineResponse = MutableLiveData<AdminAccDeccResponse> ()
+    private val _acceptedDeclineResponse = MutableLiveData<AdminAccDeccResponse>()
     val acceptedDeclineResponse: LiveData<AdminAccDeccResponse> = _acceptedDeclineResponse
+
+    private val _listDataSearchByMajorYearName = MutableLiveData<List<ItemSearchItem>>()
+    val listDataSearchByMajorYearName: LiveData<List<ItemSearchItem>> = _listDataSearchByMajorYearName
 
     fun fetchDashboardData(){
         viewModelScope.launch {
@@ -154,6 +158,28 @@ class AdminViewModel(private val repository: Repository, private val context: Co
 
                 if (response.isSuccessful) {
                     _acceptedDeclineResponse.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    fun getAkunByMajorYearName(
+        jurusan: String,
+        angkatan: String,
+        search: String
+    ) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getAkunByMajorYearName(jurusan, angkatan, search)
+
+                if (response.isSuccessful) {
+                    _listDataSearchByMajorYearName.value = response.body()
                 } else {
                     val errorBody = response.errorBody()?.string()
                     val message = JSONObject(errorBody).getString("message")

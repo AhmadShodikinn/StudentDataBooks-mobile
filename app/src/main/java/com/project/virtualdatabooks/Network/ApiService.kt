@@ -2,6 +2,8 @@ package com.project.virtualdatabooks.Network
 
 import com.project.virtualdatabooks.Data.DataClass.ItemAngkatanItem
 import com.project.virtualdatabooks.Data.DataClass.ItemJurusanItem
+import com.project.virtualdatabooks.Data.DataClass.ItemSearch
+import com.project.virtualdatabooks.Data.DataClass.ItemSearchItem
 import com.project.virtualdatabooks.Data.Request.AdminLoginRequest
 import com.project.virtualdatabooks.Data.Request.AdminOTPRequest
 import com.project.virtualdatabooks.Data.Request.StudentLoginRequest
@@ -63,6 +65,13 @@ interface ApiService {
 
     @DELETE("admin/data-diri/pending/{id}")
     suspend fun deletePendingRequest(@Path("id") id: Int): Response<AdminAccDeccResponse>
+
+    @GET("admin/akun")
+    suspend fun getAkunByMajorYearName(
+        @Query("jurusan") jurusan: String,
+        @Query("angkatan") angkatan: String,
+        @Query("search") search: String
+    ): Response<List<ItemSearchItem>>
 
     @POST("auth/login-siswa")
     suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): Response<StudentLoginResponse>

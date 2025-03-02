@@ -63,6 +63,8 @@ class ItemAngkatanAdapter(
 
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
+            bundle.putString("MAJOR_FULLNAME", currentItem.jurusan)
+            bundle.putString("YEAR", currentItem.tahun.toString())
             bundle.putString("CLASS_NAME", adjustedClassMajor)
             bundle.putString("MAJOR", compendiumMajor)
 
