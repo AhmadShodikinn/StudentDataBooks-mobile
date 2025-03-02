@@ -1,7 +1,6 @@
 package com.project.virtualdatabooks
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -35,7 +34,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView = findViewById(R.id.bottom_navigation)
 
         val isAdmin = intent.extras?.getBoolean("IS_ADMIN")
-        Log.d("MainAct", "isAdmin: $isAdmin")
 
         if (isAdmin == true) {
             bottomNavigationView.menu.clear()
@@ -46,7 +44,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         if (savedInstanceState == null) {
-            replaceFragment(DashboardAdminFragment())
+            if (isAdmin == true) {
+                replaceFragment(DashboardAdminFragment())
+                bottomNavigationView.selectedItemId = R.id.navigation_home_admin
+            } else {
+                replaceFragment(DashboardStudentFragment())
+                bottomNavigationView.selectedItemId = R.id.navigation_home
+            }
         }
 
         bottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -91,11 +95,16 @@ class MainActivity : AppCompatActivity() {
 
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true){
             override fun handleOnBackPressed() {
-                if (activeFragment is DashboardAdminFragment) {
+                if (activeFragment is DashboardAdminFragment || activeFragment is DashboardStudentFragment) {
                     finishAffinity()
                 } else {
-                    replaceFragment(DashboardAdminFragment())
-                    bottomNavigationView.selectedItemId = R.id.navigation_home
+                    if (isAdmin == true) {
+                        replaceFragment(DashboardAdminFragment())
+                        bottomNavigationView.selectedItemId = R.id.navigation_home_admin
+                    } else {
+                        replaceFragment(DashboardStudentFragment())
+                        bottomNavigationView.selectedItemId = R.id.navigation_home
+                    }
                 }
             }
         })
