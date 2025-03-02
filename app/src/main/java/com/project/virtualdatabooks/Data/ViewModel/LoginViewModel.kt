@@ -1,6 +1,8 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,10 +13,12 @@ import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Support.TokenHandler
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
 class LoginViewModel(
     private val repository: Repository,
-    private val tokenHandler: TokenHandler
+    private val tokenHandler: TokenHandler,
+    private val context: Context
 ): ViewModel() {
     private val _adminLoginResult = MutableLiveData<AdminLoginResponse>()
     val adminLoginResult: LiveData<AdminLoginResponse> = _adminLoginResult
@@ -27,35 +31,63 @@ class LoginViewModel(
 
     fun loginAdmin(username: String, password: String) {
         viewModelScope.launch {
-            val response = repository.loginAdmin(username, password)
-            _adminLoginResult.value = response
+            try {
+                val response = repository.loginAdmin(username, password)
+
+                if (response.isSuccessful) {
+                    _adminLoginResult.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun sendOTPAdmin(code: String){
         viewModelScope.launch {
-            val response = repository.sendOTPAdmin(code)
-            _checkOTPAdminResult.value = response
+            try {
+                val response = repository.sendOTPAdmin(code)
 
-            response.token?.let {
-                tokenHandler.saveToken(it)
+                if (response.isSuccessful) {
+                    _checkOTPAdminResult.value = response.body()
+
+                    response.body()?.token?.let {
+                        tokenHandler.saveToken(it)
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
             }
-
-            Log.d("LoginViewModel", "tokenAdmin: ${tokenHandler.getToken()}" )
         }
     }
 
     fun loginStudent(nisn: String, dateBirth: String){
         viewModelScope.launch {
-            val response = repository.loginStudent(nisn, dateBirth)
-            _studentLoginResult.value = response
+            try {
+                val response = repository.loginStudent(nisn, dateBirth)
 
-            response.token?.let {
-                tokenHandler.saveToken(it)
+                if (response.isSuccessful) {
+                    _studentLoginResult.value = response.body()
+
+                    response.body()?.token?.let {
+                        tokenHandler.saveToken(it)
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
             }
-
-            Log.d("LoginViewModel", "token: ${tokenHandler.getToken()}" )
         }
     }
-
 }

@@ -1,6 +1,8 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
+import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,8 +17,10 @@ import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
+import org.json.JSONObject
+import retrofit2.Response
 
-class AdminViewModel(private val repository: Repository): ViewModel() {
+class AdminViewModel(private val repository: Repository, private val context: Context): ViewModel() {
     private val _dashboardData = MutableLiveData<AdminDashboardResponse>()
     val dashboardData: LiveData<AdminDashboardResponse> = _dashboardData
 
@@ -37,50 +41,127 @@ class AdminViewModel(private val repository: Repository): ViewModel() {
 
     fun fetchDashboardData(){
         viewModelScope.launch {
-            val response = repository.fetchDashboardData()
-            _dashboardData.value = response
+            try {
+                val response = repository.fetchDashboardData()
+
+                if (response.isSuccessful) {
+                    _dashboardData.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Server error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getDataJurusan() {
         viewModelScope.launch {
-            val response = repository.getDataJurusan()
-            _dataJurusan.value = response
+            try {
+                val response = repository.getDataJurusan()
+
+                if (response.isSuccessful) {
+                    _dataJurusan.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getDataAngkatan() {
         viewModelScope.launch {
-            val response = repository.getDataAngkatan()
-            _dataAngkatan.value = response
+            try {
+                val response = repository.getDataAngkatan()
+
+                if (response.isSuccessful) {
+                    _dataAngkatan.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getAllPendingRequest() {
         viewModelScope.launch {
-            val response = repository.getAllPendingRequest()
-            _listDataPending.value = response
+            try {
+                val response = repository.getAllPendingRequest()
+
+                if (response.isSuccessful) {
+                    _listDataPending.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("error")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun getPendingRequestById(id: Int) {
         viewModelScope.launch {
-            val response = repository.getPendingRequestById(id)
-            _dataPendingRequestById.value = response
+            try {
+                val response = repository.getPendingRequestById(id)
+
+                if (response.isSuccessful) {
+                    _dataPendingRequestById.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun acceptedPendingRequest(id: Int) {
         viewModelScope.launch {
-            val response = repository.acceptedPendingRequest(id)
-            _acceptedDeclineResponse.value = response
+            try {
+                val response = repository.acceptedPendingRequest(id)
+
+                if (response.isSuccessful) {
+                    _acceptedDeclineResponse.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun declinePendingRequest(id: Int) {
         viewModelScope.launch {
-            val response = repository.deletePendingRequest(id)
-            _acceptedDeclineResponse.value = response
+            try {
+                val response = repository.deletePendingRequest(id)
+
+                if (response.isSuccessful) {
+                    _acceptedDeclineResponse.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

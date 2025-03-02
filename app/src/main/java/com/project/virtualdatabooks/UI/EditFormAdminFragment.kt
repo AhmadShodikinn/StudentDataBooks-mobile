@@ -40,7 +40,7 @@ class EditFormAdminFragment : Fragment() {
         val token = tokenHandler.getToken() ?: ""
 
         val repository = Repository(ApiConfig.getApiService(token))
-        val factory = ViewModelFactory(repository)
+        val factory = ViewModelFactory(repository, requireContext())
         adminViewModel = ViewModelProvider(this, factory).get(AdminViewModel::class.java)
 
         studentId = arguments?.getInt("STUDENT_ID")
@@ -123,6 +123,7 @@ class EditFormAdminFragment : Fragment() {
                     val intent = Intent(requireContext(), NotifactionUpdate::class.java)
                     intent.putExtra("HEADER_MESSAGE", "Form Berhasil Dikonfirmasi!")
                     intent.putExtra("SUBTITLE_MESSAGE", "Terimakasih, Form telah berhasil dikonfirmasi !.")
+                    intent.putExtra("IS_ADMIN", true)
                     activity?.startActivity(intent)
                 }
             })
@@ -137,6 +138,7 @@ class EditFormAdminFragment : Fragment() {
                     val intent = Intent(requireContext(), NotifactionUpdate::class.java)
                     intent.putExtra("HEADER_MESSAGE", "Form Berhasil Ditolak!")
                     intent.putExtra("SUBTITLE_MESSAGE", "Terimakasih, Form telah berhasil ditolak !.")
+                    intent.putExtra("IS_ADMIN", true)
                     activity?.startActivity(intent)
                 }
             })

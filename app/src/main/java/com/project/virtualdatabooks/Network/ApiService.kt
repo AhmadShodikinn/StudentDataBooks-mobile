@@ -38,38 +38,38 @@ import retrofit2.http.Query
 
 interface ApiService {
     @POST("auth/login-admin")
-    suspend fun adminLogin(@Body adminLoginRequest: AdminLoginRequest): AdminLoginResponse
+    suspend fun adminLogin(@Body adminLoginRequest: AdminLoginRequest): Response<AdminLoginResponse>
 
     @POST("auth/code-admin")
-    suspend fun checkOTPadmin(@Body adminOTPRequest: AdminOTPRequest): AdminOTPResponse
+    suspend fun checkOTPadmin(@Body adminOTPRequest: AdminOTPRequest): Response<AdminOTPResponse>
 
     @GET("admin/dashboard")
-    suspend fun fetchDashboardData(): AdminDashboardResponse
+    suspend fun fetchDashboardData(): Response<AdminDashboardResponse>
 
     @GET("admin/jurusan")
-    suspend fun getJurusanData(): List<ItemJurusanItem>
+    suspend fun getJurusanData(): Response<List<ItemJurusanItem>>
 
     @GET("admin/angkatan")
-    suspend fun getAngkatan(): List<ItemAngkatanItem>
+    suspend fun getAngkatan(): Response<List<ItemAngkatanItem>>
 
     @GET("admin/data-diri/pending")
-    suspend fun getAllPendingRequest(): AdminGetPendingResponse
+    suspend fun getAllPendingRequest(): Response<AdminGetPendingResponse>
 
     @GET("admin/data-diri/pending/{id}")
-    suspend fun getPendingRequestById(@Path("id") id: Int): AdminGetPendingRequestByIdResponse
+    suspend fun getPendingRequestById(@Path("id") id: Int): Response<AdminGetPendingRequestByIdResponse>
 
     @POST("admin/data-diri/pending/{id}")
-    suspend fun acceptedPendingRequest(@Path("id") id: Int): AdminAccDeccResponse
+    suspend fun acceptedPendingRequest(@Path("id") id: Int): Response<AdminAccDeccResponse>
 
     @DELETE("admin/data-diri/pending/{id}")
-    suspend fun deletePendingRequest(@Path("id") id: Int): AdminAccDeccResponse
+    suspend fun deletePendingRequest(@Path("id") id: Int): Response<AdminAccDeccResponse>
 
     @POST("auth/login-siswa")
-    suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): StudentLoginResponse
+    suspend fun studentLogin(@Body studentLoginRequest: StudentLoginRequest): Response<StudentLoginResponse>
 
     @GET("siswa/data-diri")
-    suspend fun studentBiodata(@Query("user_id") userId: Int): StudentBiodataResponse
+    suspend fun studentBiodata(@Query("user_id") userId: Int): Response<StudentBiodataResponse>
 
     @PUT("siswa/data-diri")
-    suspend fun updateStudentData(@Body studentUpdateRequest: StudentUpdateRequest): StudentUpdateResponse
+    suspend fun updateStudentData(@Body studentUpdateRequest: StudentUpdateRequest): Response<StudentUpdateResponse>
 }

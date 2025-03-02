@@ -1,5 +1,7 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,8 +21,9 @@ import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 
-class StudentViewModel(private val repository: Repository): ViewModel() {
+class StudentViewModel(private val repository: Repository, private val context: Context): ViewModel() {
     private val _studentBiodata = MutableLiveData<StudentBiodataResponse>()
     val studentBiodata: LiveData<StudentBiodataResponse> = _studentBiodata
 
@@ -29,15 +32,37 @@ class StudentViewModel(private val repository: Repository): ViewModel() {
 
     fun getStudentBiodata(userId: Int){
         viewModelScope.launch {
-            val response = repository.fetchBiodataSiswa(userId)
-            _studentBiodata.value = response
+            try {
+                val response = repository.fetchBiodataSiswa(userId)
+
+                if (response.isSuccessful) {
+                    _studentBiodata.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
     fun updateStudentData(request: StudentUpdateRequest) {
         viewModelScope.launch {
-            val response = repository.updateStudentData(request)
-            _updateStudentBiodata.value = response
+            try {
+                val response = repository.updateStudentData(request)
+
+                if (response.isSuccessful) {
+                    _updateStudentBiodata.value = response.body()
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

@@ -28,57 +28,58 @@ import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import com.project.virtualdatabooks.Network.ApiService
+import retrofit2.Response
 
 class Repository(private val apiService: ApiService) {
 
-    suspend fun loginAdmin(username: String, password: String): AdminLoginResponse {
+    suspend fun loginAdmin(username: String, password: String): Response<AdminLoginResponse> {
         val bodyRequest = AdminLoginRequest(username, password)
         return apiService.adminLogin(bodyRequest)
     }
 
-    suspend fun sendOTPAdmin(code: String): AdminOTPResponse {
+    suspend fun sendOTPAdmin(code: String): Response<AdminOTPResponse> {
         val bodyRequest = AdminOTPRequest(code)
         return apiService.checkOTPadmin(bodyRequest)
     }
 
-    suspend fun loginStudent(nisn: String, dateBirth: String): StudentLoginResponse {
+    suspend fun loginStudent(nisn: String, dateBirth: String): Response<StudentLoginResponse> {
         val bodyRequest = StudentLoginRequest(nisn, dateBirth)
         return apiService.studentLogin(bodyRequest)
     }
 
-    suspend fun fetchDashboardData(): AdminDashboardResponse {
+    suspend fun fetchDashboardData(): Response<AdminDashboardResponse> {
         return apiService.fetchDashboardData()
     }
 
-    suspend fun fetchBiodataSiswa(userId: Int): StudentBiodataResponse {
+    suspend fun fetchBiodataSiswa(userId: Int): Response<StudentBiodataResponse> {
         return apiService.studentBiodata(userId)
     }
 
-    suspend fun updateStudentData(request: StudentUpdateRequest): StudentUpdateResponse {
+    suspend fun updateStudentData(request: StudentUpdateRequest): Response<StudentUpdateResponse> {
         return apiService.updateStudentData(request)
     }
 
-    suspend fun getDataJurusan(): List<ItemJurusanItem> {
+    suspend fun getDataJurusan(): Response<List<ItemJurusanItem>> {
         return apiService.getJurusanData()
     }
 
-    suspend fun getDataAngkatan(): List<ItemAngkatanItem> {
+    suspend fun getDataAngkatan(): Response<List<ItemAngkatanItem>> {
         return apiService.getAngkatan()
     }
 
-    suspend fun getAllPendingRequest(): AdminGetPendingResponse {
+    suspend fun getAllPendingRequest(): Response<AdminGetPendingResponse> {
         return apiService.getAllPendingRequest()
     }
 
-    suspend fun getPendingRequestById(id: Int): AdminGetPendingRequestByIdResponse {
+    suspend fun getPendingRequestById(id: Int): Response<AdminGetPendingRequestByIdResponse> {
         return apiService.getPendingRequestById(id)
     }
 
-    suspend fun acceptedPendingRequest(id: Int): AdminAccDeccResponse {
+    suspend fun acceptedPendingRequest(id: Int): Response<AdminAccDeccResponse> {
         return apiService.acceptedPendingRequest(id)
     }
 
-    suspend fun deletePendingRequest(id: Int): AdminAccDeccResponse {
+    suspend fun deletePendingRequest(id: Int): Response<AdminAccDeccResponse> {
         return apiService.deletePendingRequest(id)
     }
 

@@ -29,7 +29,7 @@ class StudentDataFragment : Fragment() {
         val token = tokenHandler.getToken() ?: ""
 
         val repository = Repository(ApiConfig.getApiService(token))
-        val factory = ViewModelFactory(repository)
+        val factory = ViewModelFactory(repository, requireContext())
 
         adminViewModel = ViewModelProvider(this, factory).get(AdminViewModel::class.java)
     }

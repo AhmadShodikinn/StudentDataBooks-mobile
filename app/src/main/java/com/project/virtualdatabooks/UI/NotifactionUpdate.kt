@@ -2,6 +2,7 @@ package com.project.virtualdatabooks.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -25,6 +26,7 @@ class NotifactionUpdate : AppCompatActivity() {
 
         val headerMessage = intent.getStringExtra("HEADER_MESSAGE")
         val subtitleMessage = intent.getStringExtra("SUBTITLE_MESSAGE")
+        val isAdmin = intent.getBooleanExtra("IS_ADMIN", false)
 
         val headerTextView = findViewById<TextView>(R.id.tv_header)
         val subtitleTextView = findViewById<TextView>(R.id.tv_subtitle)
@@ -32,9 +34,14 @@ class NotifactionUpdate : AppCompatActivity() {
         headerTextView.text = headerMessage ?: "Terimakasih!"
         subtitleTextView.text = subtitleMessage ?: "Terimakasih, form anda telah diterima sistem!"
 
+        Log.d("Notification Update", "isAdmin: $isAdmin")
+
         val backButton = findViewById<MaterialButton>(R.id.notifyBackButton)
         backButton.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
+            if (isAdmin == true) {
+                intent.putExtra("IS_ADMIN", true)
+            }
             startActivity(intent)
             finish()
         }

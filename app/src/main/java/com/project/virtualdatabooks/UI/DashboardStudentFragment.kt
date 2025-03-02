@@ -27,7 +27,7 @@ class DashboardStudentFragment : Fragment() {
         val token = tokenHandler.getToken() ?: ""
 
         val repository = Repository(ApiConfig.getApiService(token))
-        val factory = ViewModelFactory(repository)
+        val factory = ViewModelFactory(repository, requireContext())
 
         studentViewModel = ViewModelProvider(this, factory).get(StudentViewModel::class.java)
     }

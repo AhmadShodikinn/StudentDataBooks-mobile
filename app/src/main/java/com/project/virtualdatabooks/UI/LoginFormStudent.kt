@@ -31,7 +31,7 @@ class LoginFormStudent: AppCompatActivity() {
         val token = tokenHandler.getToken() ?: ""
 
         val repository = Repository(ApiConfig.getApiService(token))
-        val factory = LoginViewModelFactory(repository, tokenHandler)
+        val factory = LoginViewModelFactory(repository, tokenHandler, this)
         loginViewModel = ViewModelProvider(this, factory).get(LoginViewModel::class.java)
 
         loginViewModel.studentLoginResult.observe(this, { response ->
