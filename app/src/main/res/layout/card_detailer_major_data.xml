@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="392dp"
+    android:layout_height="75dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginLeft="12dp"
+    android:orientation="vertical"
+    android:background="#EFF2F4"
+    android:gravity="start">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="@drawable/background_table_body"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_numDetailedMajor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="1"
+            android:textSize="16sp"
+            android:layout_weight="0.1"
+            android:textColor="@color/tabelTextColor"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/tv_nameDetailedMajor"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Andi Budiono"
+            android:textSize="16sp"
+            android:layout_weight="0.3"
+            android:textColor="@color/tabelTextColor"
+            android:layout_gravity="center"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_seeRaporDetailedMajor"
+                android:layout_width="86dp"
+                android:layout_height="37dp"
+                android:text="Lihat Raport"
+                android:padding="0dp"
+                app:cornerRadius="5dp"
+                android:backgroundTint="#4B85FA"
+                android:textSize="13sp"
+                android:layout_marginEnd="10dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_downloadRaporDetailedMajor"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cornerRadius="6dp"
+                app:icon="@drawable/ic_downloadupdate"
+                app:iconTint="@color/black"
+                android:padding="11dp"
+                app:strokeWidth="1dp"
+                app:backgroundTint="@android:color/transparent"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>
