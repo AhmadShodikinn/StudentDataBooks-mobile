@@ -55,6 +55,11 @@ class EditFormAdminFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentEditFormAdminBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val spinnerItems = resources.getStringArray(R.array.spinner_items)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerItems)
@@ -74,6 +79,14 @@ class EditFormAdminFragment : Fragment() {
         binding.spinnerMotherStatus.adapter = motherStatusAdapter
 
         binding.spinnerOptionForm.adapter = adapter
+
+        adminViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
+            if (isLoading) {
+                binding.loading.visibility = View.VISIBLE
+            } else {
+                binding.loading.visibility = View.GONE
+            }
+        })
 
         fillInForm()
 
@@ -144,7 +157,6 @@ class EditFormAdminFragment : Fragment() {
             })
         }
 
-        return binding.root
     }
 
     private fun fillInForm() {

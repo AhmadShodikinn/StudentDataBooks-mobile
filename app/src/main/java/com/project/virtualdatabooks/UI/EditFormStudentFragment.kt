@@ -2,6 +2,7 @@ package com.project.virtualdatabooks.UI
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -76,6 +77,11 @@ class EditFormStudentFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentEditFormStudentBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         val spinnerItems = resources.getStringArray(R.array.spinner_items)
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, spinnerItems)
@@ -94,6 +100,14 @@ class EditFormStudentFragment : Fragment() {
         binding.spinnerBlood.adapter = bloodTypesAdapter
         binding.spinnerFatherStatus.adapter = fatherStatusAdapter
         binding.spinnerMotherStatus.adapter = motherStatusAdapter
+
+        studentViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
+            if (isLoading) {
+                binding.loading.visibility = View.VISIBLE
+            } else {
+                binding.loading.visibility = View.GONE
+            }
+        })
 
         fillInForm()
 
@@ -141,33 +155,31 @@ class EditFormStudentFragment : Fragment() {
 
         binding.sendButton.setOnClickListener {
             val requestBody = (
-                StudentUpdateRequest(
-                    data_diri = getBiodata(),
-                    perkembangan = getPerkembanganPendidikan(),
-                    ayah_kandung = getAyah(),
-                    ibu_kandung = getIbu(),
-                    kesehatan = getKesehatan(),
-                    pendidikan = getPendidikan(),
-                    setelah_pendidikan = getSetelahPendidikan(),
-                    tempat_tinggal = getAlamat(),
-                    wali = getWali(),
-                    hobi_siswa = getHobi()
-                )
-            )
+                    StudentUpdateRequest(
+                        data_diri = getBiodata(),
+                        perkembangan = getPerkembanganPendidikan(),
+                        ayah_kandung = getAyah(),
+                        ibu_kandung = getIbu(),
+                        kesehatan = getKesehatan(),
+                        pendidikan = getPendidikan(),
+                        setelah_pendidikan = getSetelahPendidikan(),
+                        tempat_tinggal = getAlamat(),
+                        wali = getWali(),
+                        hobi_siswa = getHobi()
+                    )
+                    )
             studentViewModel.updateStudentData(requestBody)
         }
 
         studentViewModel.updateStudentBiodata.observe( viewLifecycleOwner, { response ->
             if (response.message != null){
-                    val intent = Intent(requireContext(), NotifactionUpdate::class.java)
-                    intent.putExtra("HEADER_MESSAGE", "Form Berhasil Diajukan!")
-                    intent.putExtra("SUBTITLE_MESSAGE", "Terimakasih, Form telah berhasil diajukan !.")
-                    activity?.startActivity(intent)
-                }
+                val intent = Intent(requireContext(), NotifactionUpdate::class.java)
+                intent.putExtra("HEADER_MESSAGE", "Form Berhasil Diajukan!")
+                intent.putExtra("SUBTITLE_MESSAGE", "Terimakasih, Form telah berhasil diajukan !.")
+                activity?.startActivity(intent)
             }
+        }
         )
-
-        return binding.root
     }
 
     private fun fillInForm(){

@@ -56,6 +56,14 @@ class EditDataAdminFragment: Fragment() {
 
         adminViewModel.getAllPendingRequest()
 
+        adminViewModel.isLoading.observe(viewLifecycleOwner, { isLoading ->
+            if (isLoading) {
+                binding.loading.visibility = View.VISIBLE
+            } else {
+                binding.loading.visibility = View.GONE
+            }
+        })
+
         adminViewModel.listDataPending.observe(viewLifecycleOwner, {  response ->
 
             Log.d("EditDataFragment", "Data: $response")

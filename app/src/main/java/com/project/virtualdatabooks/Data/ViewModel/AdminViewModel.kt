@@ -43,6 +43,8 @@ class AdminViewModel(private val repository: Repository, private val context: Co
     private val _listDataSearchByMajorYearName = MutableLiveData<List<ItemSearchItem>>()
     val listDataSearchByMajorYearName: LiveData<List<ItemSearchItem>> = _listDataSearchByMajorYearName
 
+    val isLoading = MutableLiveData<Boolean>(false)
+
     fun fetchDashboardData(){
         viewModelScope.launch {
             try {
@@ -98,6 +100,8 @@ class AdminViewModel(private val repository: Repository, private val context: Co
     }
 
     fun getAllPendingRequest() {
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.getAllPendingRequest()
@@ -111,11 +115,15 @@ class AdminViewModel(private val repository: Repository, private val context: Co
                 }
             } catch (e: Exception) {
                 Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
             }
         }
     }
 
     fun getPendingRequestById(id: Int) {
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.getPendingRequestById(id)
@@ -129,6 +137,8 @@ class AdminViewModel(private val repository: Repository, private val context: Co
                 }
             } catch (e: Exception) {
                 Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
             }
         }
     }

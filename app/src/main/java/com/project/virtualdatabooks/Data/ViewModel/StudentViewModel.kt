@@ -20,7 +20,11 @@ class StudentViewModel(private val repository: Repository, private val context: 
     private val _updateStudentBiodata = MutableLiveData<StudentUpdateResponse>()
     val updateStudentBiodata: LiveData<StudentUpdateResponse> = _updateStudentBiodata
 
+    val isLoading = MutableLiveData<Boolean>(false)
+
     fun getStudentBiodata(userId: Int){
+        isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val response = repository.fetchBiodataSiswa(userId)
@@ -34,6 +38,8 @@ class StudentViewModel(private val repository: Repository, private val context: 
                 }
             } catch (e: Exception) {
                 Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
             }
         }
     }
