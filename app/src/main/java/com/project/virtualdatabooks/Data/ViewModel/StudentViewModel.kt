@@ -7,17 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.project.virtualdatabooks.Data.Repository.Repository
-import com.project.virtualdatabooks.Data.Request.StudentUpdateAyahRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateDataDiriRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateHobiRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateIbuRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateKesehatanRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdatePendidikanRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdatePerkembanganRequest
 import com.project.virtualdatabooks.Data.Request.StudentUpdateRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateSetelahPendidikanRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateTempatTinggalRequest
-import com.project.virtualdatabooks.Data.Request.StudentUpdateWaliRequest
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import kotlinx.coroutines.launch
