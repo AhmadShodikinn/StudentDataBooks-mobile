@@ -8,12 +8,30 @@ Aplikasi **Virtual Data Book** adalah aplikasi mobile yang digunakan untuk menyi
 - Autentikasi menggunakan email, otp, jwt dari api.
 - Tampilan antarmuka yang sederhana dan mudah digunakan.
 
-## Persyaratan Sistem
+## Minimum Requirements
 
-Sebelum memulai, pastikan Anda memiliki hal-hal berikut:
-- **Android Studio** versi terbaru.
-- **Kotlin** yang sudah terinstall pada Android Studio.
-- **SDK Android** yang sesuai dengan versi aplikasi.
+Untuk menjalankan aplikasi **Virtual Data Book** pada perangkat atau emulator Android, pastikan sistem Anda memenuhi persyaratan minimum berikut:
+
+### Sistem Operasi dan Perangkat
+- **Android Version**: Android 9 (Pie) atau yang lebih baru.
+- **Perangkat Fisik**: Perangkat Android dengan minimal Android 9 (Pie) atau lebih baru.
+- **Emulator**: Emulator Android dengan Android API Level 28 atau lebih tinggi.
+
+### Perangkat Lunak
+- **Android Studio**: Versi terbaru (disarankan **Android Studio Electric Eel** atau lebih baru).
+- **Android Gradle Plugin (AGP)**: **8.3.2** atau yang lebih baru.
+- **Kotlin**: Versi terbaru yang didukung oleh AGP 8.3.2.
+- **Gradle**: Versi terbaru yang kompatibel dengan Android Gradle Plugin 8.3.2.
+
+### SDK dan Tools
+- **SDK Android**: Pastikan Anda menginstal Android SDK dengan API Level 28 atau lebih tinggi.
+- **Java**: JDK 11 atau lebih tinggi.
+- **Node.js**: diperlukan untuk akses server
+
+### Spesifikasi Minimum Perangkat
+- **RAM**: 4 GB atau lebih (disarankan untuk emulator atau perangkat fisik).
+- **Penyimpanan**: 1 GB ruang kosong atau lebih.
+
 
 ## Langkah-Langkah Instalasi
 
