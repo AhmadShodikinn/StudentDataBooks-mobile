@@ -2,12 +2,6 @@ package com.project.virtualdatabooks.Data.DataClass
 
 import com.google.gson.annotations.SerializedName
 
- class ItemAngkatan(
-
-	@field:SerializedName("ItemAngkatan")
-	val itemAngkatan: List<ItemAngkatanItem>
-)
-
  class ItemAngkatanItem(
 
 	@field:SerializedName("tahun")

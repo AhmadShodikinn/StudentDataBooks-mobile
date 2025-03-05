@@ -1,7 +1,6 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,8 +18,6 @@ import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
 import org.json.JSONObject
-import retrofit2.Response
-
 class AdminViewModel(private val repository: Repository, private val context: Context): ViewModel() {
     private val _dashboardData = MutableLiveData<AdminDashboardResponse>()
     val dashboardData: LiveData<AdminDashboardResponse> = _dashboardData

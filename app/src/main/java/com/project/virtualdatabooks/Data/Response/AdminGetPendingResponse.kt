@@ -3,7 +3,6 @@ package com.project.virtualdatabooks.Data.Response
 import com.google.gson.annotations.SerializedName
 
 data class AdminGetPendingResponse(
-	//bug disini ygy
 	@field:SerializedName("data")
 	val data: List<PendingDataItem?>? = null
 )

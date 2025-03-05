@@ -2,12 +2,6 @@ package com.project.virtualdatabooks.Data.DataClass
 
 import com.google.gson.annotations.SerializedName
 
-data class ItemSearch(
-
-	@field:SerializedName("ItemSearch")
-	val itemSearch: List<ItemSearchItem?>? = null
-)
-
 data class ItemSearchItem(
 
 	@field:SerializedName("nama")
