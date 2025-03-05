@@ -1,11 +1,13 @@
 # Virtual Data Book - Aplikasi Mobile
 
-Aplikasi **Virtual Data Book** adalah aplikasi mobile yang digunakan untuk menyimpan dan mengelola data siswa secara virtual. Aplikasi ini dibangun dengan menggunakan **Kotlin** dan **Android Studio** serta menggunakan **Material UI** untuk tampilan dan Penggunaan retrofit untuk berkomunikasi dengan api server
+Aplikasi **Virtual Data Book** adalah aplikasi mobile yang digunakan untuk menyimpan dan mengelola data siswa secara virtual. Aplikasi ini dibangun dengan menggunakan **Kotlin** dan **Android Studio** serta menggunakan **Material UI** untuk tampilan dan Penggunaan **retrofit** untuk berkomunikasi dengan api server
 
 ## Fitur Utama
 - Mengubah data siswa.
 - Melihat data siswa berdasarkan angkatan,jurusan,tahun angkatan.
 - Autentikasi menggunakan email, otp, jwt dari api.
+- Livedata perubahaan
+- Melihat data rapor tiap siswa (soon)
 - Tampilan antarmuka yang sederhana dan mudah digunakan.
 
 ## Minimum Requirements
