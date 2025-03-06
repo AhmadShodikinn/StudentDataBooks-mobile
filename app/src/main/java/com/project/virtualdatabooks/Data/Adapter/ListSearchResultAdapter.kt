@@ -12,7 +12,8 @@ import com.project.virtualdatabooks.R
 
 class ListSearchResultAdapter(
     private val context: Context,
-    private val data: List<ItemSearchItem>
+    private val data: List<ItemSearchItem>,
+    private val onExportClick: (Int) -> Unit
 ): RecyclerView.Adapter<ListSearchResultAdapter.viewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -27,6 +28,10 @@ class ListSearchResultAdapter(
 
         holder.rollNumber.text = (position + 1).toString()
         holder.fullName.text = currentItem.nama
+
+        holder.btnExportReport.setOnClickListener {
+            currentItem.id?.let { userId -> onExportClick(userId) }
+        }
     }
 
     override fun getItemCount(): Int {

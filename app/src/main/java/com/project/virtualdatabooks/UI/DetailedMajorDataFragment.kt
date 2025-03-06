@@ -1,12 +1,20 @@
 package com.project.virtualdatabooks.UI
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -38,6 +46,21 @@ class DetailedMajorDataFragment : Fragment() {
         val factory = ViewModelFactory(repository, requireContext())
 
         adminViewModel = ViewModelProvider(this, factory).get(AdminViewModel::class.java)
+
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                REQUEST_CODE_STORAGE_PERMISSION
+            )
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val intent = Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION)
+                startActivityForResult(intent, REQUEST_CODE_STORAGE_PERMISSION)
+            } else {
+                Toast.makeText(requireContext(), "Izin sudah diberikan", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun onCreateView(
@@ -77,7 +100,9 @@ class DetailedMajorDataFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = binding.rvDetailedMajorData
-        adapter = ListSearchResultAdapter(requireContext(), emptyList())
+        adapter = ListSearchResultAdapter(requireContext(), emptyList()) { id ->
+            adminViewModel.getRaportExportById(id)
+        }
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
@@ -100,9 +125,15 @@ class DetailedMajorDataFragment : Fragment() {
         })
 
         adminViewModel.listDataSearchByMajorYearName.observe(viewLifecycleOwner, { data ->
-            adapter = ListSearchResultAdapter(requireContext(), data)
+            adapter = ListSearchResultAdapter(requireContext(), data)  { id ->
+                adminViewModel.getRaportExportById(id)
+            }
             recyclerView.adapter = adapter
         })
 
+    }
+
+    companion object {
+        private const val REQUEST_CODE_STORAGE_PERMISSION = 100
     }
 }

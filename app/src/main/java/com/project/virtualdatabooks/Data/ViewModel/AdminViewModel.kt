@@ -1,6 +1,7 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
 import android.content.Context
+import android.os.Environment
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,7 +18,12 @@ import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
+import okhttp3.ResponseBody
 import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.io.InputStream
+
 class AdminViewModel(private val repository: Repository, private val context: Context): ViewModel() {
     private val _dashboardData = MutableLiveData<AdminDashboardResponse>()
     val dashboardData: LiveData<AdminDashboardResponse> = _dashboardData
@@ -197,4 +203,55 @@ class AdminViewModel(private val repository: Repository, private val context: Co
             }
         }
     }
+
+    fun getRaportExportById(id: Int) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.getRaportById(id)
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    responseBody?.let {
+                        savePdfToStorage(it)
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
+            }
+        }
+    }
+
+    private fun savePdfToStorage(response: ResponseBody) {
+        try {
+            val fileName = "report_${System.currentTimeMillis()}.pdf"
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+
+            val inputStream: InputStream = response.byteStream()
+            val outputStream: FileOutputStream = FileOutputStream(file)
+
+            val buffer = ByteArray(4096)
+            var bytesRead: Int
+            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+
+            inputStream.close()
+            outputStream.close()
+
+            Toast.makeText(context, "File berhasil disimpan di: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Gagal menyimpan file PDF!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+
 }

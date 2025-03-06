@@ -77,4 +77,7 @@ interface ApiService {
         @Path("id") id: Int,
         @Query("semester") semester: Int
     ): Response<ResponseBody>
+
+    @GET("/admin/export-raport-pdf/{id}")
+    suspend fun getExportRaportById(@Path("id") id: Int): Response<ResponseBody>
 }

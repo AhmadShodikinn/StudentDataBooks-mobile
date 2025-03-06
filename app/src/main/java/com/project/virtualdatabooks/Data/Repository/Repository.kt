@@ -85,5 +85,8 @@ class Repository(private val apiService: ApiService) {
         return apiService.getAkunByMajorYearName(jurusan, angkatan, search)
     }
 
+    suspend fun getRaportById(id: Int): Response<ResponseBody> {
+        return apiService.getExportRaportById(id)
+    }
 
 }
