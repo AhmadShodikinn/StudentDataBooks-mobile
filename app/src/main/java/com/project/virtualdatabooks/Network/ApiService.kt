@@ -16,10 +16,12 @@ import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
+import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -68,4 +70,11 @@ interface ApiService {
 
     @PUT("siswa/data-diri")
     suspend fun updateStudentData(@Body studentUpdateRequest: StudentUpdateRequest): Response<StudentUpdateResponse>
+
+    @GET("siswa/image-raport/{id}")
+    @Headers("Accept: image/png")
+    suspend fun getImageRapor(
+        @Path("id") id: Int,
+        @Query("semester") semester: Int
+    ): Response<ResponseBody>
 }

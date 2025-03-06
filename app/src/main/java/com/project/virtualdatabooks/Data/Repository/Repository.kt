@@ -17,6 +17,7 @@ import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import com.project.virtualdatabooks.Network.ApiService
+import okhttp3.ResponseBody
 import retrofit2.Response
 
 class Repository(private val apiService: ApiService) {
@@ -42,6 +43,10 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun fetchBiodataSiswa(userId: Int): Response<StudentBiodataResponse> {
         return apiService.studentBiodata(userId)
+    }
+
+    suspend fun getImageRapor(id: Int, semester: Int): Response<ResponseBody> {
+        return apiService.getImageRapor(id, semester)
     }
 
     suspend fun updateStudentData(request: StudentUpdateRequest): Response<StudentUpdateResponse> {

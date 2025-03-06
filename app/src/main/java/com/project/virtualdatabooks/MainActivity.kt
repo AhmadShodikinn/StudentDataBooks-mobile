@@ -64,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_edit_data -> {
-                    val userId = intent.getIntExtra("USER_ID", 0)
+                    val userId  = intent.getIntExtra("USER_ID", 0)
                     replaceFragment(EditDataFragment(), userId)
                     true
                 }
@@ -73,7 +73,8 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.navigation_eraport -> {
-                    replaceFragment(ERaportFragment())
+                    val userId = intent.getIntExtra("USER_ID", 0)
+                    replaceFragment(ERaportFragment(), userId)
                     true
                 }
                 R.id.navigation_eraport_admin -> {
