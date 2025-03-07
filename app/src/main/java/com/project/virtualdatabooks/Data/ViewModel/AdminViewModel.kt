@@ -1,6 +1,8 @@
 package com.project.virtualdatabooks.Data.ViewModel
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Environment
 import android.util.Log
 import android.widget.Toast
@@ -50,6 +52,9 @@ class AdminViewModel(private val repository: Repository, private val context: Co
 
     private val _importStatus = MutableLiveData<String>()
     val importStatus: LiveData<String> get() = _importStatus
+
+    private val _imageRapor = MutableLiveData<Bitmap>()
+    val imageRapor: LiveData<Bitmap> = _imageRapor
 
     val isLoading = MutableLiveData<Boolean>(false)
 
@@ -209,6 +214,31 @@ class AdminViewModel(private val repository: Repository, private val context: Co
         }
     }
 
+    fun getImageRaporById(id: Int, semester: Int) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.getImageRaporById(id, semester)
+
+                if (response.isSuccessful) {
+                    val inputStream = response.body()?.byteStream()
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+                    _imageRapor.value = bitmap
+
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context,"Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
+            }
+        }
+    }
+
     fun getRaportExportPdfById(id: Int) {
         isLoading.value = true
 
@@ -313,9 +343,9 @@ class AdminViewModel(private val repository: Repository, private val context: Co
                 val response = repository.postImportByExcel(file)
 
                 if (response.isSuccessful) {
-                    _importStatus.value = "File uploaded successfully!"
+                    _importStatus.value = "Sukses!"
                 } else {
-                    _importStatus.value = "Failed to upload file: ${response.message()}"
+                    _importStatus.value = "Gagal Upload file: ${response.message()}"
                 }
             } catch (e: Exception) {
                 _importStatus.value = "Error: ${e.message}"

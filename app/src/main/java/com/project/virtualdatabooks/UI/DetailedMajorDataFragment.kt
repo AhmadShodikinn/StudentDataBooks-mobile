@@ -180,12 +180,19 @@ class DetailedMajorDataFragment : Fragment() {
                 binding.loading.visibility = View.GONE
                 Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
             } else {
-                binding.loading.visibility = View.VISIBLE
-                if (status == "Uploading file...") {
-                    binding.loading.visibility = View.VISIBLE
+                if (status == "Sukses!") {
+                    val intent = Intent(requireContext(), NotifactionUpdate::class.java).apply {
+                        putExtra("HEADER_MESSAGE", "Import data Berhasil Dikonfirmasi!")
+                        putExtra("SUBTITLE_MESSAGE", "Terimakasih, Data telah berhasil dimasukkan !.")
+                        putExtra("IS_ADMIN", true)
+                    }
+                    startActivity(intent)
                 } else {
-                    binding.loading.visibility = View.GONE
-                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                    if (status == "Uploading file...") {
+                        binding.loading.visibility = View.VISIBLE
+                    } else {
+                        Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         })

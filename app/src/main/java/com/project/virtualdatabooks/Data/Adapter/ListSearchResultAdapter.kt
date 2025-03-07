@@ -1,15 +1,18 @@
 package com.project.virtualdatabooks.Data.Adapter
 
 import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.project.virtualdatabooks.Data.DataClass.ItemSearchItem
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.UI.ERaportAdminFragment
 
 class ListSearchResultAdapter(
     private val context: Context,
@@ -45,7 +48,20 @@ class ListSearchResultAdapter(
         }
 
         holder.btnViewReport.setOnClickListener {
-            TODO()
+            val bundle = Bundle()
+            currentItem.id?.let { id -> bundle.putInt("USER_ID", id) }
+            bundle.putString("NAMA", currentItem.nama)
+            bundle.putString("NISN", currentItem.nisn)
+            bundle.putString("JURUSAN", currentItem.jurusan)
+
+            val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+
+            val adminViewRaport = ERaportAdminFragment()
+            adminViewRaport.arguments = bundle
+
+            transaction.replace(R.id.fragment_container, adminViewRaport)
+            transaction.addToBackStack(null)
+            transaction.commit()
         }
     }
 

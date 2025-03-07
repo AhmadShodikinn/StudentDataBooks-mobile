@@ -77,10 +77,6 @@ class MainActivity : AppCompatActivity() {
                     replaceFragment(ERaportFragment(), userId)
                     true
                 }
-                R.id.navigation_eraport_admin -> {
-                    replaceFragment(ERaportAdminFragment())
-                    true
-                }
                 R.id.navigation_data_siswa -> {
                     replaceFragment(StudentDataFragment())
                     true

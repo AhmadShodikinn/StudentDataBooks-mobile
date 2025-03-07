@@ -13,8 +13,8 @@
         android:id="@+id/navigation_data_siswa"
         android:icon="@drawable/ic_datatable"
         android:title="Data Siswa"/>
-    <item
-        android:id="@+id/navigation_eraport_admin"
-        android:icon="@drawable/ic_table"
-        android:title="E-Raport"/>
+<!--    <item-->
+<!--        android:id="@+id/navigation_eraport_admin"-->
+<!--        android:icon="@drawable/ic_table"-->
+<!--        android:title="E-Raport"/>-->
 </menu>

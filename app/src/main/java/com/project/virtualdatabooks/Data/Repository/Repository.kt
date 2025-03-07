@@ -50,6 +50,10 @@ class Repository(private val apiService: ApiService) {
         return apiService.getImageRapor(id, semester)
     }
 
+    suspend fun getImageRaporById(id: Int, semester: Int): Response<ResponseBody> {
+        return apiService.getImageRaportById(id, semester)
+    }
+
     suspend fun updateStudentData(request: StudentUpdateRequest): Response<StudentUpdateResponse> {
         return apiService.updateStudentData(request)
     }
