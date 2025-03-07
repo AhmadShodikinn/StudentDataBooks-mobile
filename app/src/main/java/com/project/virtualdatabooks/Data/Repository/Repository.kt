@@ -86,8 +86,12 @@ class Repository(private val apiService: ApiService) {
         return apiService.getAkunByMajorYearName(jurusan, angkatan, search)
     }
 
-    suspend fun getRaportById(id: Int): Response<ResponseBody> {
-        return apiService.getExportRaportById(id)
+    suspend fun getRaportPdfById(id: Int): Response<ResponseBody> {
+        return apiService.getExportRaportPdfById(id)
+    }
+
+    suspend fun getRaportExcelById(id: Int): Response<ResponseBody> {
+        return apiService.getExportRaportExcelById(id)
     }
 
     suspend fun postImportByExcel(file: MultipartBody.Part): Response<ResponseBody> {

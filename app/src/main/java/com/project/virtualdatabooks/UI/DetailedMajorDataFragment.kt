@@ -3,7 +3,6 @@ package com.project.virtualdatabooks.UI
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -16,7 +15,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -30,7 +28,6 @@ import com.project.virtualdatabooks.R
 import com.project.virtualdatabooks.Support.FileUtil
 import com.project.virtualdatabooks.Support.TokenHandler
 import com.project.virtualdatabooks.databinding.FragmentDetailedMajorDataBinding
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -128,9 +125,16 @@ class DetailedMajorDataFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val recyclerView: RecyclerView = binding.rvDetailedMajorData
-        adapter = ListSearchResultAdapter(requireContext(), emptyList()) { id ->
-            adminViewModel.getRaportExportById(id)
-        }
+        adapter = ListSearchResultAdapter(
+            requireContext(),
+            emptyList(),
+            onExportPdfClick = { id ->
+                adminViewModel.getRaportExportPdfById(id)
+            },
+            onExportExcelClick = { id ->
+                adminViewModel.getRaportExportExcelById(id)
+            }
+        )
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
 
@@ -153,9 +157,16 @@ class DetailedMajorDataFragment : Fragment() {
         })
 
         adminViewModel.listDataSearchByMajorYearName.observe(viewLifecycleOwner, { data ->
-            adapter = ListSearchResultAdapter(requireContext(), data)  { id ->
-                adminViewModel.getRaportExportById(id)
-            }
+            adapter = ListSearchResultAdapter(
+                requireContext(),
+                data,
+                onExportPdfClick = { id ->
+                    adminViewModel.getRaportExportPdfById(id)
+                },
+                onExportExcelClick = { id ->
+                    adminViewModel.getRaportExportExcelById(id)
+                }
+            )
             recyclerView.adapter = adapter
         })
 

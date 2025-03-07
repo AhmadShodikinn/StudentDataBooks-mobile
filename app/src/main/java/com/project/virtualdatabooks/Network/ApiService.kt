@@ -82,8 +82,15 @@ interface ApiService {
     ): Response<ResponseBody>
 
     @GET("/admin/export-raport-pdf/{id}")
-    suspend fun getExportRaportById(@Path("id") id: Int): Response<ResponseBody>
+    suspend fun getExportRaportPdfById(@Path("id") id: Int): Response<ResponseBody>
+
+    @GET("/admin/export-raport-excel/{id}")
+    suspend fun getExportRaportExcelById(@Path("id") id: Int): Response<ResponseBody>
+
+
     @Multipart
     @POST("import-excel")
     suspend fun postImportByExcel(@Part file: MultipartBody.Part): Response<ResponseBody>
+
+
 }

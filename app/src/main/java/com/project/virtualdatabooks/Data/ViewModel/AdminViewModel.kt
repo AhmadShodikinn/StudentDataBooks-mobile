@@ -209,12 +209,12 @@ class AdminViewModel(private val repository: Repository, private val context: Co
         }
     }
 
-    fun getRaportExportById(id: Int) {
+    fun getRaportExportPdfById(id: Int) {
         isLoading.value = true
 
         viewModelScope.launch {
             try {
-                val response = repository.getRaportById(id)
+                val response = repository.getRaportPdfById(id)
 
                 if (response.isSuccessful) {
                     val responseBody = response.body()
@@ -255,6 +255,55 @@ class AdminViewModel(private val repository: Repository, private val context: Co
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Gagal menyimpan file PDF!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun getRaportExportExcelById(id: Int) {
+        isLoading.value = true
+
+        viewModelScope.launch {
+            try {
+                val response = repository.getRaportExcelById(id)
+
+                if (response.isSuccessful) {
+                    val responseBody = response.body()
+                    responseBody?.let {
+                        saveExcelToStorage(it)
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    val message = JSONObject(errorBody).getString("message")
+                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(context, "Server Error!", Toast.LENGTH_SHORT).show()
+            } finally {
+                isLoading.value = false
+            }
+        }
+    }
+
+    private fun saveExcelToStorage(response: ResponseBody) {
+        try {
+            val fileName = "exported_file_${System.currentTimeMillis()}.xlsx"
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), fileName)
+
+            val inputStream: InputStream = response.byteStream()
+            val outputStream: FileOutputStream = FileOutputStream(file)
+
+            val buffer = ByteArray(4096)
+            var bytesRead: Int
+            while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                outputStream.write(buffer, 0, bytesRead)
+            }
+
+            inputStream.close()
+            outputStream.close()
+
+            Toast.makeText(context, "File berhasil disimpan di: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Gagal menyimpan file Excel!", Toast.LENGTH_SHORT).show()
         }
     }
 
