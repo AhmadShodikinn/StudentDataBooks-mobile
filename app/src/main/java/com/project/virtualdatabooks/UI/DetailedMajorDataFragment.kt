@@ -3,6 +3,7 @@ package com.project.virtualdatabooks.UI
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.opengl.Visibility
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -12,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -24,8 +27,13 @@ import com.project.virtualdatabooks.Data.ViewModel.AdminViewModel
 import com.project.virtualdatabooks.Data.ViewModelFactory.ViewModelFactory
 import com.project.virtualdatabooks.Network.ApiConfig
 import com.project.virtualdatabooks.R
+import com.project.virtualdatabooks.Support.FileUtil
 import com.project.virtualdatabooks.Support.TokenHandler
 import com.project.virtualdatabooks.databinding.FragmentDetailedMajorDataBinding
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 class DetailedMajorDataFragment : Fragment() {
@@ -33,11 +41,25 @@ class DetailedMajorDataFragment : Fragment() {
     private lateinit var adminViewModel: AdminViewModel
     private lateinit var adapter: ListSearchResultAdapter
     private lateinit var tokenHandler: TokenHandler
+    private lateinit var getContent: ActivityResultLauncher<String>
+
     private var majorFullName: String = ""
     private var year: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+            uri?.let {
+                val file = FileUtil.uriToFile(it, requireContext())
+                val requestBody = RequestBody.create(
+                    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet".toMediaType(),
+                    file
+                )
+                val body = MultipartBody.Part.createFormData("file", file.name, requestBody)
+                adminViewModel.postImportByExcel(body)
+            }
+        }
 
         tokenHandler = TokenHandler(requireContext())
         val token = tokenHandler.getToken() ?: ""
@@ -69,6 +91,8 @@ class DetailedMajorDataFragment : Fragment() {
     ): View? {
         binding = FragmentDetailedMajorDataBinding.inflate(inflater, container, false)
 
+        binding.loading.visibility = View.GONE
+
         majorFullName = arguments?.getString("MAJOR_FULLNAME") ?: "TIDAK ADA DATA"
         year = arguments?.getString("YEAR") ?: "TIDAK ADA DATA"
 
@@ -79,6 +103,10 @@ class DetailedMajorDataFragment : Fragment() {
         val classLogo = arguments?.getString("MAJOR") ?: "TIDAK ADA DATA"
 
         binding.DetailedMajorDataName.text = className
+
+        binding.btnImport.setOnClickListener {
+            uploadFile()
+        }
 
         when (classLogo) {
             "RPL" -> binding.DetailedMajorDataImg.setImageResource(R.mipmap.ic_rpl_foreground)
@@ -131,6 +159,25 @@ class DetailedMajorDataFragment : Fragment() {
             recyclerView.adapter = adapter
         })
 
+    }
+
+    private fun uploadFile() {
+        getContent.launch("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+        adminViewModel.importStatus.observe(viewLifecycleOwner, { status ->
+            if (status.startsWith("Error")) {
+                binding.loading.visibility = View.GONE
+                Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+            } else {
+                binding.loading.visibility = View.VISIBLE
+                if (status == "Uploading file...") {
+                    binding.loading.visibility = View.VISIBLE
+                } else {
+                    binding.loading.visibility = View.GONE
+                    Toast.makeText(requireContext(), status, Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     companion object {

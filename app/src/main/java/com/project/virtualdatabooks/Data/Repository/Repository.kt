@@ -17,6 +17,7 @@ import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
 import com.project.virtualdatabooks.Network.ApiService
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 
@@ -87,6 +88,10 @@ class Repository(private val apiService: ApiService) {
 
     suspend fun getRaportById(id: Int): Response<ResponseBody> {
         return apiService.getExportRaportById(id)
+    }
+
+    suspend fun postImportByExcel(file: MultipartBody.Part): Response<ResponseBody> {
+        return apiService.postImportByExcel(file)
     }
 
 }

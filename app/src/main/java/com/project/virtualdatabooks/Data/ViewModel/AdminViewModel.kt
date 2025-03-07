@@ -2,6 +2,7 @@ package com.project.virtualdatabooks.Data.ViewModel
 
 import android.content.Context
 import android.os.Environment
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -18,6 +19,7 @@ import com.project.virtualdatabooks.Data.Response.AdminGetPendingResponse
 import com.project.virtualdatabooks.Data.Response.PendingDataDiri
 import com.project.virtualdatabooks.Data.Response.PendingDataItem
 import kotlinx.coroutines.launch
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import java.io.File
@@ -45,6 +47,9 @@ class AdminViewModel(private val repository: Repository, private val context: Co
 
     private val _listDataSearchByMajorYearName = MutableLiveData<List<ItemSearchItem>>()
     val listDataSearchByMajorYearName: LiveData<List<ItemSearchItem>> = _listDataSearchByMajorYearName
+
+    private val _importStatus = MutableLiveData<String>()
+    val importStatus: LiveData<String> get() = _importStatus
 
     val isLoading = MutableLiveData<Boolean>(false)
 
@@ -250,6 +255,23 @@ class AdminViewModel(private val repository: Repository, private val context: Co
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Gagal menyimpan file PDF!", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun postImportByExcel(file: MultipartBody.Part) {
+        viewModelScope.launch {
+            try {
+                val response = repository.postImportByExcel(file)
+
+                if (response.isSuccessful) {
+                    _importStatus.value = "File uploaded successfully!"
+                } else {
+                    _importStatus.value = "Failed to upload file: ${response.message()}"
+                }
+            } catch (e: Exception) {
+                _importStatus.value = "Error: ${e.message}"
+                Log.d("AdminViewModel", "Error: ${e.message}")
+            }
         }
     }
 

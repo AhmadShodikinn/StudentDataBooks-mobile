@@ -32,6 +32,10 @@ class ListSearchResultAdapter(
         holder.btnExportReport.setOnClickListener {
             currentItem.id?.let { userId -> onExportClick(userId) }
         }
+
+        holder.btnViewReport.setOnClickListener {
+            TODO()
+        }
     }
 
     override fun getItemCount(): Int {

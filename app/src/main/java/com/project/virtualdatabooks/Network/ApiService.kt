@@ -16,14 +16,17 @@ import com.project.virtualdatabooks.Data.Response.AdminOTPResponse
 import com.project.virtualdatabooks.Data.Response.StudentBiodataResponse
 import com.project.virtualdatabooks.Data.Response.StudentLoginResponse
 import com.project.virtualdatabooks.Data.Response.StudentUpdateResponse
+import okhttp3.MultipartBody
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -80,4 +83,7 @@ interface ApiService {
 
     @GET("/admin/export-raport-pdf/{id}")
     suspend fun getExportRaportById(@Path("id") id: Int): Response<ResponseBody>
+    @Multipart
+    @POST("import-excel")
+    suspend fun postImportByExcel(@Part file: MultipartBody.Part): Response<ResponseBody>
 }
